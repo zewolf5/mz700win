@@ -501,6 +501,12 @@ void mz_main(char* lpszCmdParam)
 	SetCurrentDirectory(LoadOpenDir);
 
 	if (lpszCmdParam[0] != '\0') {
+
+		size_t len = strlen(lpszCmdParam);
+		if (len >= 2 && lpszCmdParam[0] == L'"' && lpszCmdParam[len - 1] == L'"') {
+			lpszCmdParam[len - 1] = L'\0'; // Remove trailing quote
+			lpszCmdParam = lpszCmdParam + 1;       // Skip leading quote
+		}
 		load_mzt_file(lpszCmdParam);
 	}
 	else {
@@ -512,6 +518,8 @@ void mz_main(char* lpszCmdParam)
 	mainloop();
 
 }
+
+
 
 //-------------------------------------------------------------
 // 特定の時間　ウェイトを入れる
@@ -1164,6 +1172,6 @@ DWORD WINAPI dummy_thread(LPVOID n)
 	}
 
 	return 0;
-}
+	}
 
 #endif
