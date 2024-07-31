@@ -4,7 +4,7 @@ Modifed to be used from emu stations like retrofe.
  * take in file as input when launching app
  * ESC kills app
 
-OLD INFO FROM FORM
+OLD INFO FROM FORK
 - Coded by Marukun, Youkan, Snail
   - Marukun: [http://retropc.net/mz-memories/mz700/]
   - Youkan: [http://www.maroon.dti.ne.jp/youkan/mz700/]
