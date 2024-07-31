@@ -1,4 +1,4 @@
-//----------------------------------------------------------------------------
+ï»¿//----------------------------------------------------------------------------
 // File:fileset.c
 //
 // mz700win:Set/Open Image File Module
@@ -26,30 +26,30 @@
 #include "MZscrn.h"
 
 //////////////////////////
-// ƒtƒ@ƒCƒ‹–¼•\¦—p•¶š—ñ
+// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //////////////////////////
 /* for Japanese */
-static const UINT8 mzascii_j[]=
+static const UINT8 mzascii_j[] =
 {
-	"@Ih”“•fij–{C|D^"\
-	"‚O‚P‚Q‚R‚S‚T‚U‚V‚W‚XFGƒ„H"\
-	"—‚`‚a‚b‚c‚d‚e‚f‚g‚h‚i‚j‚k‚l‚m‚n"\
-	"‚o‚p‚q‚r‚s‚t‚u‚v‚w‚x‚ym_nª©"\
-	"¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦"\
-	"“úŒ‰Î…–Ø‹à“y¶”N•ª•b‰~’¥"\
-	"«BuvADƒ’ƒ@ƒBƒDƒFƒHƒƒƒ…ƒ‡ƒb"\
-	"[ƒAƒCƒEƒGƒIƒJƒLƒNƒPƒRƒTƒVƒXƒZƒ\"\
-	"ƒ^ƒ`ƒcƒeƒgƒiƒjƒkƒlƒmƒnƒqƒtƒwƒzƒ}"\
-	"ƒ~ƒ€ƒƒ‚ƒ„ƒ†ƒˆƒ‰ƒŠƒ‹ƒŒƒƒƒ“JK"\
-	"¨¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦"\
-	"¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦"\
-	"¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦"\
-	"¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦ƒÎ"
+	"ã€€ï¼â€ï¼ƒï¼„ï¼…ï¼†â€™ï¼ˆï¼‰ï¼Šï¼‹ï¼Œï¼ï¼ï¼"\
+	"ï¼ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™ï¼šï¼›ï¼œï¼ï¼ï¼Ÿ"\
+	"ï¼ ï¼¡ï¼¢ï¼£ï¼¤ï¼¥ï¼¦ï¼§ï¼¨ï¼©ï¼ªï¼«ï¼¬ï¼­ï¼®ï¼¯"\
+	"ï¼°ï¼±ï¼²ï¼³ï¼´ï¼µï¼¶ï¼·ï¼¸ï¼¹ï¼ºï¼»ï¼¼ï¼½â†‘â†"\
+	"â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»"\
+	"æ—¥æœˆç«æ°´æœ¨é‡‘åœŸç”Ÿå¹´æ™‚åˆ†ç§’å††ï¿¥ï¿¡â–¼"\
+	"â†“ã€‚ã€Œã€ã€ï¼ãƒ²ã‚¡ã‚£ã‚¥ã‚§ã‚©ãƒ£ãƒ¥ãƒ§ãƒƒ"\
+	"ãƒ¼ã‚¢ã‚¤ã‚¦ã‚¨ã‚ªã‚«ã‚­ã‚¯ã‚±ã‚³ã‚µã‚·ã‚¹ã‚»ã‚½"\
+	"ã‚¿ãƒãƒ„ãƒ†ãƒˆãƒŠãƒ‹ãƒŒãƒãƒãƒãƒ’ãƒ•ãƒ˜ãƒ›ãƒ"\
+	"ãƒŸãƒ ãƒ¡ãƒ¢ãƒ¤ãƒ¦ãƒ¨ãƒ©ãƒªãƒ«ãƒ¬ãƒ­ãƒ¯ãƒ³ã‚›ã‚œ"\
+	"â†’â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»"\
+	"â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»"\
+	"â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»"\
+	"â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»â€»Ï€"
 
 };
 
 /* for Europe */
-static const UINT8 mzascii_e[]=
+static const UINT8 mzascii_e[] =
 {
 	" !\x22#$%&\x27()*+,-./"											/* 20 */
 	"0123456789:;<=>?"													/* 30 */
@@ -86,10 +86,10 @@ LPCSTR APD_msg = "The file %s\ralready exists. Append to existing file?";
 LPCSTR OVW_msg = "The file %s\ralready exists. Overwrite ?";
 
 /**************************/
-/* ƒZ[ƒu—pƒCƒ[ƒW‚Ìw’è */
+/* ï¿½Zï¿½[ï¿½uï¿½pï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìwï¿½ï¿½ */
 /**************************/
-static BOOL setfile_forsave(LPCSTR ttlmsg, UINT8 *fnbuf, UINT8 *opendir,
-							LPCSTR askmsg,LPCSTR fltstr, LPCSTR extstr)
+static BOOL setfile_forsave(LPCSTR ttlmsg, UINT8* fnbuf, UINT8* opendir,
+	LPCSTR askmsg, LPCSTR fltstr, LPCSTR extstr)
 {
 	OPENFILENAME ofn;
 	DWORD ecode;
@@ -97,98 +97,98 @@ static BOOL setfile_forsave(LPCSTR ttlmsg, UINT8 *fnbuf, UINT8 *opendir,
 	UINT8 tempdir[MAX_PATH];
 	UINT8 msg[512];
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
-	ZeroMemory(&ofn,sizeof(OPENFILENAME));
-	ofn.lStructSize = sizeof(OPENFILENAME);								/* \‘¢‘ÌƒTƒCƒY */
-	ofn.hwndOwner = hwndApp;											/* ƒ_ƒCƒAƒƒO‚ÌƒI[ƒi[ */
-	ofn.Flags = OFN_LONGNAMES|OFN_HIDEREADONLY;
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);								/* ï¿½\ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y */
+	ofn.hwndOwner = hwndApp;											/* ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒIï¿½[ï¿½iï¿½[ */
+	ofn.Flags = OFN_LONGNAMES | OFN_HIDEREADONLY;
 	ofn.lpstrFilter = fltstr;
 	ofn.lpstrDefExt = extstr;
 	ofn.lpstrTitle = ttlmsg;
-	ofn.lpstrFile = filebuf;											/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^ */
-	ofn.nMaxFile = sizeof(filebuf);										/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒTƒCƒY */
+	ofn.lpstrFile = filebuf;											/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ */
+	ofn.nMaxFile = sizeof(filebuf);										/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y */
 
-	ZeroMemory(&filebuf,sizeof(filebuf));								/* ƒtƒ@ƒCƒ‹–¼“ü—Íƒoƒbƒtƒ@‰Šú‰» */
-	lstrcpy(filebuf, fnbuf);											/* ƒZ[ƒuƒtƒ@ƒCƒ‹–¼ */
+	ZeroMemory(&filebuf, sizeof(filebuf));								/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	lstrcpy(filebuf, fnbuf);											/* ï¿½Zï¿½[ï¿½uï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ */
 
-	GetCurrentDirectory(sizeof(tempdir), tempdir);						/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠæ“¾ */
-	ofn.lpstrInitialDir = opendir;									/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠİ’è */
+	GetCurrentDirectory(sizeof(tempdir), tempdir);						/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½æ“¾ */
+	ofn.lpstrInitialDir = opendir;									/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½İ’ï¿½ */
 
 	if (!GetSaveFileName(&ofn))
 	{
 		ecode = CommDlgExtendedError();
-		SetCurrentDirectory(tempdir);								/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ•œ‹A */
-		return FALSE;												/* ƒLƒƒƒ“ƒZƒ‹ */
+		SetCurrentDirectory(tempdir);								/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½A */
+		return FALSE;												/* ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
 	}
-	
+
 	if (FileExists(ofn.lpstrFile))
 	{
-		// ƒtƒ@ƒCƒ‹‚ÍŠù‚É‘¶İ‚·‚é‚ª—Ç‚¢‚©–â‚¢‡‚í‚¹‚éƒƒbƒZ[ƒW
+		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÍŠï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½é‚ªï¿½Ç‚ï¿½ï¿½ï¿½ï¿½â‚¢ï¿½ï¿½ï¿½í‚¹ï¿½éƒï¿½bï¿½Zï¿½[ï¿½W
 		wsprintf(msg, askmsg, ofn.lpstrFile);
 
-		if (MessageBox(hwndApp, msg , "MZ700WIN",MB_ICONQUESTION|MB_YESNO) != IDYES)
+		if (MessageBox(hwndApp, msg, "MZ700WIN", MB_ICONQUESTION | MB_YESNO) != IDYES)
 		{
 			return FALSE;
 		}
-		
+
 	}
-	// path‚Íƒtƒ‹ƒpƒXBŠg’£q‚Ì•âŠ®‚ğ–Y‚ê‚¸‚É
+	// pathï¿½Íƒtï¿½ï¿½ï¿½pï¿½Xï¿½Bï¿½gï¿½ï¿½ï¿½qï¿½Ì•âŠ®ï¿½ï¿½Yï¿½ê‚¸ï¿½ï¿½
 	// 
-	lstrcpy(fnbuf, ofn.lpstrFile);									/* ƒZ[ƒuƒtƒ@ƒCƒ‹–¼‚ğƒRƒs[ */
-	GetCurrentDirectory(IniFileStrBuf, opendir);					/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠæ“¾ */
-	
-	SetCurrentDirectory(tempdir);									/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ•œ‹A */
+	lstrcpy(fnbuf, ofn.lpstrFile);									/* ï¿½Zï¿½[ï¿½uï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½sï¿½[ */
+	GetCurrentDirectory(IniFileStrBuf, opendir);					/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½æ“¾ */
+
+	SetCurrentDirectory(tempdir);									/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½A */
 
 	return TRUE;
 }
 
 /****************************/
-/* ‚n‚‚…‚—pƒCƒ[ƒW‚Ìw’è */
+/* ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìwï¿½ï¿½ */
 /****************************/
-static BOOL setfile_foropen(LPCSTR ttlmsg, UINT8 *fnbuf, UINT8 *opendir,
-							LPCSTR fltstr, LPCSTR extstr)
+static BOOL setfile_foropen(LPCSTR ttlmsg, UINT8* fnbuf, UINT8* opendir,
+	LPCSTR fltstr, LPCSTR extstr)
 {
 	OPENFILENAME ofn;
 	DWORD ecode;
 	UINT8 filebuf[MAX_PATH];
 	UINT8 tempdir[MAX_PATH];
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
-	ZeroMemory(&ofn,sizeof(OPENFILENAME));
-	ofn.lStructSize = sizeof(OPENFILENAME);								/* \‘¢‘ÌƒTƒCƒY */
-	ofn.hwndOwner = hwndApp;											/* ƒ_ƒCƒAƒƒO‚ÌƒI[ƒi[ */
-	ofn.Flags = OFN_LONGNAMES|OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST;
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);								/* ï¿½\ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y */
+	ofn.hwndOwner = hwndApp;											/* ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒIï¿½[ï¿½iï¿½[ */
+	ofn.Flags = OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
 	ofn.lpstrFilter = fltstr;
 	ofn.lpstrDefExt = extstr;
 	ofn.lpstrTitle = ttlmsg;
-	ofn.lpstrFile = filebuf;											/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^ */
-	ofn.nMaxFile = sizeof(filebuf);										/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒTƒCƒY */
+	ofn.lpstrFile = filebuf;											/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ */
+	ofn.nMaxFile = sizeof(filebuf);										/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y */
 
-	ZeroMemory(&filebuf,sizeof(filebuf));								/* ƒtƒ@ƒCƒ‹–¼“ü—Íƒoƒbƒtƒ@‰Šú‰» */
-	lstrcpy(filebuf, fnbuf);											/* ƒZ[ƒuƒtƒ@ƒCƒ‹–¼ */
+	ZeroMemory(&filebuf, sizeof(filebuf));								/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	lstrcpy(filebuf, fnbuf);											/* ï¿½Zï¿½[ï¿½uï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ */
 
-	GetCurrentDirectory(sizeof(tempdir), tempdir);						/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠæ“¾ */
-	ofn.lpstrInitialDir = opendir;										/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠİ’è */
+	GetCurrentDirectory(sizeof(tempdir), tempdir);						/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½æ“¾ */
+	ofn.lpstrInitialDir = opendir;										/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½İ’ï¿½ */
 
 	if (!GetOpenFileName(&ofn))
 	{
 		ecode = CommDlgExtendedError();
-		SetCurrentDirectory(tempdir);									/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ•œ‹A */
-		return FALSE;													/* ƒLƒƒƒ“ƒZƒ‹ */
+		SetCurrentDirectory(tempdir);									/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½A */
+		return FALSE;													/* ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
 	}
-	
-	// path‚Íƒtƒ‹ƒpƒXBŠg’£q‚Ì•âŠ®‚ğ–Y‚ê‚¸‚É
+
+	// pathï¿½Íƒtï¿½ï¿½ï¿½pï¿½Xï¿½Bï¿½gï¿½ï¿½ï¿½qï¿½Ì•âŠ®ï¿½ï¿½Yï¿½ê‚¸ï¿½ï¿½
 	// 
-	lstrcpy(fnbuf, ofn.lpstrFile);										/* ƒZ[ƒuƒtƒ@ƒCƒ‹–¼‚ğƒRƒs[ */
-	GetCurrentDirectory(IniFileStrBuf, opendir);						/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠæ“¾ */
-	
-	SetCurrentDirectory(tempdir);										/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ•œ‹A */
+	lstrcpy(fnbuf, ofn.lpstrFile);										/* ï¿½Zï¿½[ï¿½uï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½sï¿½[ */
+	GetCurrentDirectory(IniFileStrBuf, opendir);						/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½æ“¾ */
+
+	SetCurrentDirectory(tempdir);										/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½A */
 
 	return TRUE;
 }
 
 //////////////////////////
-// CMOS‚Ìƒf[ƒ^‚ğ“Ç‚İ‚Ş
+// CMOSï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 //////////////////////////
 void mz_load_cmos(void)
 {
@@ -203,14 +203,14 @@ void mz_load_cmos(void)
 		FILE_CLOSE(fh);
 		if (rbytes < MZ1R12_SIZE)
 		{
-			for (i=0;i<MZ1R12_SIZE;i++)
-				mz1r12_ptr[i]=i&0xFF;
+			for (i = 0; i < MZ1R12_SIZE; i++)
+				mz1r12_ptr[i] = i & 0xFF;
 		}
 	}
 	else
 	{
-		for (i=0;i<MZ1R12_SIZE;i++)
-			mz1r12_ptr[i]=i&0xFF;
+		for (i = 0; i < MZ1R12_SIZE; i++)
+			mz1r12_ptr[i] = i & 0xFF;
 	}
 
 }
@@ -233,191 +233,190 @@ void mz_save_cmos(void)
 }
 
 /*************************/
-/* mztƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş */
+/* mztï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½ */
 /*************************/
-BOOL load_mzt_file(char *filename)
+BOOL load_mzt_file(char* filename)
 {
 	MZTHED m12hed;
 	FILE_HDL fp;
-	int i,c;
-	UINT8 *ptr;
+	int i, c;
+	UINT8* ptr;
 	UINT8 strtmp[256];
 	UINT8 strtmp2[64];
 
 	fp = FILE_ROPEN(filename);
 	if (fp == FILE_VAL_ERROR) return FALSE;
 
-	lstrcpy(tapefile,filename);
+	lstrcpy(tapefile, filename);
 	UpdateTapeMenu();
 
-	FILE_READ(fp,&m12hed,128);											/* ƒwƒbƒ_“Ç‚İ‚İ */
-	FILE_READ(fp,mem+RAM_START+m12hed.mz_topaddr,m12hed.mz_filesize);	/* –{‘Ì“Ç‚İ‚İ */
+	FILE_READ(fp, &m12hed, 128);											/* ï¿½wï¿½bï¿½_ï¿½Ç‚İï¿½ï¿½ï¿½ */
+	FILE_READ(fp, mem + RAM_START + m12hed.mz_topaddr, m12hed.mz_filesize);	/* ï¿½{ï¿½Ì“Ç‚İï¿½ï¿½ï¿½ */
 	FILE_CLOSE(fp);
-//	set_tapepos(128 + m12hed.mz_filesize);
+	//	set_tapepos(128 + m12hed.mz_filesize);
 	set_tapepos(0);
 
-	/* ƒtƒ@ƒCƒ‹–¼•ÏŠ· */
-	ptr=m12hed.mz_filename;
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ÏŠï¿½ */
+	ptr = m12hed.mz_filename;
 
-	for (i=0;;)
+	for (i = 0;;)
 	{
-		if (menu.fontset==1)
+		if (menu.fontset == 1)
 		{
-			/* “ú–{Œêƒtƒ@ƒCƒ‹ƒl[ƒ€ˆ— */
-			c=*(ptr++);
-			if (c==0x0D) break;
-			
-			if (c<0x20) continue;
-			
-			c-=0x20;
-			c<<=1;
-			
-			strtmp2[i]  =mzascii_j[c];
-			strtmp2[i+1]=mzascii_j[c+1];
-			i+=2;
+			/* ï¿½ï¿½ï¿½{ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+			c = *(ptr++);
+			if (c == 0x0D) break;
+
+			if (c < 0x20) continue;
+
+			c -= 0x20;
+			c <<= 1;
+
+			strtmp2[i] = mzascii_j[c];
+			strtmp2[i + 1] = mzascii_j[c + 1];
+			i += 2;
 		}
 		else
 		{
-			/* ‰pŒêƒtƒ@ƒCƒ‹ƒl[ƒ€ˆ— */
-			c=*(ptr++);
-			if (c==0x0D) break;
-			
-			if (c<0x20) continue;
-			
-			c-=0x20;
-			
-			strtmp2[i]  =mzascii_e[c];
+			/* ï¿½pï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+			c = *(ptr++);
+			if (c == 0x0D) break;
+
+			if (c < 0x20) continue;
+
+			c -= 0x20;
+
+			strtmp2[i] = mzascii_e[c];
 			i++;
 		}
-		
+
 	}
 	/* EOS */
-	strtmp2[i]=0;
+	strtmp2[i] = 0;
 
-	/* ƒtƒ@ƒCƒ‹ƒCƒ“ƒtƒHƒ[ƒVƒ‡ƒ“•\¦ */
-	wsprintf(strtmp,"Filename:%s\n"\
-					"Top Addr :$%04X\n"\
-					"File Size:$%04X\n"\
-					"Exec Addr:$%04X",
-					strtmp2,
-					m12hed.mz_topaddr,	
-					m12hed.mz_filesize,
-					m12hed.mz_execaddr);
-			 
-	MessageBox(hwndApp, strtmp,
-			   "File Information", MB_ICONINFORMATION|MB_OK);
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ */
+	wsprintf(strtmp, "Filename:%s\n"\
+		"Top Addr :$%04X\n"\
+		"File Size:$%04X\n"\
+		"Exec Addr:$%04X",
+		strtmp2,
+		m12hed.mz_topaddr,
+		m12hed.mz_filesize,
+		m12hed.mz_execaddr);
+
+	//MessageBox(hwndApp, strtmp, "File Information", MB_ICONINFORMATION | MB_OK);
 
 	if (rom1_mode == MON_EMUL)
 	{
-		mem[ROM_START+L_TMPEX] = (m12hed.mz_execaddr & 0xFF);
-		mem[ROM_START+L_TMPEX+1] = (m12hed.mz_execaddr >> 8);
+		mem[ROM_START + L_TMPEX] = (m12hed.mz_execaddr & 0xFF);
+		mem[ROM_START + L_TMPEX + 1] = (m12hed.mz_execaddr >> 8);
 	}
-	
+
 	return TRUE;
 }
 
 /*********************************************/
-/* ƒe[ƒvƒCƒ[ƒW‚Æ‚µ‚Ämztƒtƒ@ƒCƒ‹‚ğ‚ğƒZƒbƒg */
+/* ï¿½eï¿½[ï¿½vï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Æ‚ï¿½ï¿½ï¿½mztï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g */
 /*********************************************/
-BOOL set_tape_file(char *filename)
+BOOL set_tape_file(char* filename)
 {
 	if (!FileExists(filename))
 		return FALSE;
 
-	lstrcpy(tapefile,filename);
+	lstrcpy(tapefile, filename);
 
 	set_tapepos(0);
 	UpdateTapeMenu();
-	
+
 	return TRUE;
 }
 
 /****************************/
-/* ƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
+/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
 /****************************/
 BOOL OpenFileImage(void)
 {
 	OPENFILENAME ofn;
 	UINT8 filebuf[MAX_PATH];
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
-	ZeroMemory(&ofn,sizeof(OPENFILENAME));
-	ofn.lStructSize = sizeof(OPENFILENAME);								/* \‘¢‘ÌƒTƒCƒY */
-	ofn.hwndOwner = hwndApp;											/* ƒ_ƒCƒAƒƒO‚ÌƒI[ƒi[ */
-	ofn.Flags = OFN_LONGNAMES|OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST;
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);								/* ï¿½\ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y */
+	ofn.hwndOwner = hwndApp;											/* ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒIï¿½[ï¿½iï¿½[ */
+	ofn.Flags = OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
 	ofn.lpstrFilter = MZT_filter;
 #if JAPANESE
-	ofn.lpstrTitle = "ƒtƒ@ƒCƒ‹‚Ìƒ[ƒh - Select File Image";
+	ofn.lpstrTitle = "ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìƒï¿½ï¿½[ï¿½h - Select File Image";
 #else
 	ofn.lpstrTitle = "Load Program File - Select File Image";
 #endif	
-	ofn.lpstrFile = filebuf;											/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^ */
-	ofn.nMaxFile = sizeof(filebuf);										/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒTƒCƒY */
+	ofn.lpstrFile = filebuf;											/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ */
+	ofn.nMaxFile = sizeof(filebuf);										/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y */
 
-	ZeroMemory(&filebuf,sizeof(filebuf));								/* ƒtƒ@ƒCƒ‹–¼“ü—Íƒoƒbƒtƒ@‰Šú‰» */
-	ofn.lpstrInitialDir = LoadOpenDir;									/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠİ’è */
+	ZeroMemory(&filebuf, sizeof(filebuf));								/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	ofn.lpstrInitialDir = LoadOpenDir;									/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½İ’ï¿½ */
 	do
 	{
-		if (!GetOpenFileName(&ofn)) return FALSE;						/* ƒLƒƒƒ“ƒZƒ‹ */
-	} while (!load_mzt_file(ofn.lpstrFile));							/* ƒCƒ[ƒW“Ç‚İ‚İ */
+		if (!GetOpenFileName(&ofn)) return FALSE;						/* ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
+	} while (!load_mzt_file(ofn.lpstrFile));							/* ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ç‚İï¿½ï¿½ï¿½ */
 
-	GetCurrentDirectory(sizeof(LoadOpenDir), LoadOpenDir);				/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠæ“¾ */
+	GetCurrentDirectory(sizeof(LoadOpenDir), LoadOpenDir);				/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½æ“¾ */
 	mz_reset();
-	
+
 	return TRUE;
 }
 
 /************************/
-/* ƒe[ƒvƒCƒ[ƒW‚ğİ’è */
+/* ï¿½eï¿½[ï¿½vï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½İ’ï¿½ */
 /************************/
 BOOL SetLoadFileImage(void)
 {
 	OPENFILENAME ofn;
 	UINT8 filebuf[MAX_PATH];
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
-	ZeroMemory(&ofn,sizeof(ofn));
-	ofn.lStructSize = sizeof(OPENFILENAME);								/* \‘¢‘ÌƒTƒCƒY */
-	ofn.hwndOwner = hwndApp;											/* ƒ_ƒCƒAƒƒO‚ÌƒI[ƒi[ */
-	ofn.Flags = OFN_LONGNAMES|OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST;
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(OPENFILENAME);								/* ï¿½\ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y */
+	ofn.hwndOwner = hwndApp;											/* ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒIï¿½[ï¿½iï¿½[ */
+	ofn.Flags = OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
 	ofn.lpstrFilter = MZT_filter;
 #if JAPANESE
-	ofn.lpstrTitle = "ƒe[ƒv‚Ì“ü‚ê‘Ö‚¦ - Select File Image";
+	ofn.lpstrTitle = "ï¿½eï¿½[ï¿½vï¿½Ì“ï¿½ï¿½ï¿½Ö‚ï¿½ - Select File Image";
 #else
 	ofn.lpstrTitle = "Set Tape file - Select File Image";
 #endif	
-	ofn.lpstrFile = filebuf;											/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^ */
-	ofn.nMaxFile = sizeof(filebuf);										/* ƒtƒ@ƒCƒ‹–¼ƒoƒbƒtƒ@ƒTƒCƒY */
+	ofn.lpstrFile = filebuf;											/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ */
+	ofn.nMaxFile = sizeof(filebuf);										/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y */
 
-	ZeroMemory(&filebuf,sizeof(filebuf));								/* ƒtƒ@ƒCƒ‹–¼“ü—Íƒoƒbƒtƒ@‰Šú‰» */
-	ofn.lpstrInitialDir = LoadOpenDir;									/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠİ’è */
+	ZeroMemory(&filebuf, sizeof(filebuf));								/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	ofn.lpstrInitialDir = LoadOpenDir;									/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½İ’ï¿½ */
 
 	do
 	{
-		if (!GetOpenFileName(&ofn)) return FALSE;						/* ƒLƒƒƒ“ƒZƒ‹ */
-	} while (!set_tape_file(ofn.lpstrFile));								/* ƒCƒ[ƒW“Ç‚İ‚İ */
-	InvalidateRect(ofn.hwndOwner,NULL,TRUE);
+		if (!GetOpenFileName(&ofn)) return FALSE;						/* ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
+	} while (!set_tape_file(ofn.lpstrFile));								/* ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ç‚İï¿½ï¿½ï¿½ */
+	InvalidateRect(ofn.hwndOwner, NULL, TRUE);
 
-	GetCurrentDirectory(sizeof(LoadOpenDir), LoadOpenDir);				/* ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠæ“¾ */
+	GetCurrentDirectory(sizeof(LoadOpenDir), LoadOpenDir);				/* ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½æ“¾ */
 	return TRUE;
 }
 
 /********************************/
-/* ƒZ[ƒu—pƒe[ƒvƒCƒ[ƒW‚ğİ’è */
+/* ï¿½Zï¿½[ï¿½uï¿½pï¿½eï¿½[ï¿½vï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½İ’ï¿½ */
 /*******************************/
 BOOL SetSaveFileImage(void)
 {
 	BOOL result;
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
 #if JAPANESE
-	result = setfile_forsave("ƒe[ƒv—pƒZ[ƒuƒCƒ[ƒW‚Ìİ’è - Select File Image" , 
-								SaveTapeFile, SaveOpenDir,
-								APD_msg, MZT_filter, MZT_ext);
+	result = setfile_forsave("ï¿½eï¿½[ï¿½vï¿½pï¿½Zï¿½[ï¿½uï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìİ’ï¿½ - Select File Image",
+		SaveTapeFile, SaveOpenDir,
+		APD_msg, MZT_filter, MZT_ext);
 #else
-	result = setfile_forsave("Set Tape file (Save) - Select File Image", 
-								SaveTapeFile, SaveOpenDir,
-								APD_msg, MZT_filter, MZT_ext);
+	result = setfile_forsave("Set Tape file (Save) - Select File Image",
+		SaveTapeFile, SaveOpenDir,
+		APD_msg, MZT_filter, MZT_ext);
 #endif
 	UpdateTapeMenu();
 
@@ -425,21 +424,21 @@ BOOL SetSaveFileImage(void)
 }
 
 /**********************/
-/* ‚p‚cƒCƒ[ƒW‚ğİ’è */
+/* ï¿½pï¿½cï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½İ’ï¿½ */
 /**********************/
 BOOL SetQDFileImage(void)
 {
 	BOOL result;
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
 #if JAPANESE
-	result = setfile_foropen("‚p‚cƒfƒBƒXƒNƒCƒ[ƒW‚Ìİ’è - Select File Image" ,
-							qdfile, QDOpenDir,
-							MZT_filter, MZT_ext);
+	result = setfile_foropen("ï¿½pï¿½cï¿½fï¿½Bï¿½Xï¿½Nï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìİ’ï¿½ - Select File Image",
+		qdfile, QDOpenDir,
+		MZT_filter, MZT_ext);
 #else
 	result = setfile_foropen("Set QD file - Select File Image",
-							qdfile, QDOpenDir,
-							MZT_filter, MZT_ext);
+		qdfile, QDOpenDir,
+		MZT_filter, MZT_ext);
 #endif
 	UpdateQDMenu();
 
@@ -447,7 +446,7 @@ BOOL SetQDFileImage(void)
 }
 
 /**********************/
-/* ‚p‚cƒCƒ[ƒW‚ğ‰ğœ */
+/* ï¿½pï¿½cï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 /**********************/
 void EjectQDFileImage(void)
 {
@@ -457,17 +456,17 @@ void EjectQDFileImage(void)
 }
 
 //---------------------------------
-// ‚q‚`‚lƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚ğİ’è
+// ï¿½qï¿½`ï¿½lï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½İ’ï¿½
 //---------------------------------
 BOOL LoadRamFileImage(void)
 {
 	BOOL result;
 	UINT8 strtmp[512];
 
-	// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­
+	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½
 	result = setfile_foropen("Load RAM file - Select File Image",
-							ramfile, RAMOpenDir,
-							MZR_filter, MZR_ext);
+		ramfile, RAMOpenDir,
+		MZR_filter, MZR_ext);
 	if (result)
 	{
 		// load ramfile
@@ -475,16 +474,16 @@ BOOL LoadRamFileImage(void)
 		if (result)
 		{
 			// Save Ok
-			wsprintf(strtmp,"RAM File %s\rLoaded.", ramfile);
+			wsprintf(strtmp, "RAM File %s\rLoaded.", ramfile);
 			MessageBox(hwndApp, strtmp,
-			   "MZ700WIN", MB_ICONINFORMATION|MB_OK);
+				"MZ700WIN", MB_ICONINFORMATION | MB_OK);
 		}
 		else
 		{
 			// Save Error
-			wsprintf(strtmp,"Can't load RAM File\r%s.", ramfile);
+			wsprintf(strtmp, "Can't load RAM File\r%s.", ramfile);
 			MessageBox(hwndApp, strtmp,
-					   "Error", MB_ICONEXCLAMATION|MB_OK);
+				"Error", MB_ICONEXCLAMATION | MB_OK);
 		}
 	}
 
@@ -492,16 +491,16 @@ BOOL LoadRamFileImage(void)
 }
 
 //---------------------------------
-// ‚q‚`‚lƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚ğƒZ[ƒu
+// ï¿½qï¿½`ï¿½lï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½Zï¿½[ï¿½u
 //---------------------------------
 BOOL SaveRamFileImage(void)
 {
 	BOOL result;
 	UINT8 strtmp[512];
 
-	result = setfile_forsave("Save RAM file - Select File Image", 
-								ramfile, RAMOpenDir,
-								OVW_msg, MZR_filter, MZR_ext);
+	result = setfile_forsave("Save RAM file - Select File Image",
+		ramfile, RAMOpenDir,
+		OVW_msg, MZR_filter, MZR_ext);
 	if (result)
 	{
 		// save state....
@@ -509,16 +508,16 @@ BOOL SaveRamFileImage(void)
 		if (result)
 		{
 			// Save Ok
-			wsprintf(strtmp,"RAM File %s\rSaved.", ramfile);
+			wsprintf(strtmp, "RAM File %s\rSaved.", ramfile);
 			MessageBox(hwndApp, strtmp,
-			   "MZ700WIN", MB_ICONINFORMATION|MB_OK);
+				"MZ700WIN", MB_ICONINFORMATION | MB_OK);
 		}
 		else
 		{
 			// Save Error
-			wsprintf(strtmp,"Can't save RAM File\r%s.", ramfile);
+			wsprintf(strtmp, "Can't save RAM File\r%s.", ramfile);
 			MessageBox(hwndApp, strtmp,
-					   "Error", MB_ICONEXCLAMATION|MB_OK);
+				"Error", MB_ICONEXCLAMATION | MB_OK);
 		}
 	}
 
@@ -531,16 +530,16 @@ BOOL SaveRamFileImage(void)
 /*******************/
 static void set_tapemenu(UINT id, LPSTR itemstr, LPSTR ifname)
 {
-    HMENU hmenu;
+	HMENU hmenu;
 	UINT8 strtmp[256];
 	UINT8 strtmp2[256];
-    char drive[ _MAX_DRIVE ];
-    char dir[ _MAX_DIR ];
-    char fname[ _MAX_FNAME ];
-    char ext[ _MAX_EXT ];
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
 	BOOL f;
 
-    hmenu = GetSubMenu(hmenuApp , 0);									/* Keyboard Menu */
+	hmenu = GetSubMenu(hmenuApp, 0);									/* Keyboard Menu */
 	f = FileExists(ifname);
 
 	EnableMenuItem(hmenu, id, (!f) ? (MF_BYCOMMAND | MF_GRAYED) : MF_BYCOMMAND);
@@ -548,9 +547,9 @@ static void set_tapemenu(UINT id, LPSTR itemstr, LPSTR ifname)
 	if (ifname[0])
 	{
 		_splitpath_s(ifname, drive, sizeof(drive), dir, sizeof(dir),
-		  fname, sizeof(fname), ext, sizeof(ext) );
+			fname, sizeof(fname), ext, sizeof(ext));
 
-		wsprintf(strtmp2, " - \x22%s\x22",fname );
+		wsprintf(strtmp2, " - \x22%s\x22", fname);
 		lstrcat(strtmp, strtmp2);
 	}
 
@@ -558,7 +557,7 @@ static void set_tapemenu(UINT id, LPSTR itemstr, LPSTR ifname)
 }
 
 ////////////////////////////////////////////
-// ƒe[ƒvƒCƒ[ƒWó‘Ô‚É‚æ‚Á‚Äƒƒjƒ…[‚ğXV
+// ï¿½eï¿½[ï¿½vï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½Äƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½V
 ////////////////////////////////////////////
 void UpdateTapeMenu(void)
 {
@@ -567,29 +566,29 @@ void UpdateTapeMenu(void)
 }
 
 ////////////////////////////////////////////
-// ‚p‚cƒCƒ[ƒWó‘Ô‚É‚æ‚Á‚Äƒƒjƒ…[‚ğXV
+// ï¿½pï¿½cï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½Äƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½V
 ////////////////////////////////////////////
 void UpdateQDMenu(void)
 {
-    HMENU hmenu;
+	HMENU hmenu;
 	UINT8 strtmp[256];
 	UINT8 strtmp2[256];
-    char drive[ _MAX_DRIVE ];
-    char dir[ _MAX_DIR ];
-    char fname[ _MAX_FNAME ];
-    char ext[ _MAX_EXT ];
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
 	BOOL f;
 
-    hmenu = GetSubMenu(hmenuApp , 0);									/* Keyboard Menu */
+	hmenu = GetSubMenu(hmenuApp, 0);									/* Keyboard Menu */
 	f = FileExists(qdfile);
 
 	EnableMenuItem(hmenu, MENU_EJECTQD, (!f) ? (MF_BYCOMMAND | MF_GRAYED) : MF_BYCOMMAND);
 	lstrcpy(strtmp, "Set &QD");
 	if (qdfile[0])
 	{
-		_splitpath_s(qdfile , drive, sizeof(drive), dir, sizeof(dir), fname, sizeof(fname), ext, sizeof(ext) );
+		_splitpath_s(qdfile, drive, sizeof(drive), dir, sizeof(dir), fname, sizeof(fname), ext, sizeof(ext));
 
-		wsprintf(strtmp2, " - \x22%s\x22",fname );
+		wsprintf(strtmp2, " - \x22%s\x22", fname);
 		lstrcat(strtmp, strtmp2);
 	}
 
@@ -597,22 +596,22 @@ void UpdateQDMenu(void)
 }
 
 /********************/
-/* ó‘ÔƒZ[ƒu‚Ìˆ— */
+/* ï¿½ï¿½ÔƒZï¿½[ï¿½uï¿½Ìï¿½ï¿½ï¿½ */
 /********************/
 BOOL SaveStateFile(void)
 {
 	BOOL result;
 	UINT8 strtmp[512];
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
 #if JAPANESE
-	result = setfile_forsave("ó‘ÔƒZ[ƒu - Select State File" , 
-								statefile, StateOpenDir,
-								OVW_msg, MZS_filter, MZS_ext);
+	result = setfile_forsave("ï¿½ï¿½ÔƒZï¿½[ï¿½u - Select State File",
+		statefile, StateOpenDir,
+		OVW_msg, MZS_filter, MZS_ext);
 #else
-	result = setfile_forsave("Save State - Select State File", 
-								statefile, StateOpenDir,
-								OVW_msg, MZS_filter, MZS_ext);
+	result = setfile_forsave("Save State - Select State File",
+		statefile, StateOpenDir,
+		OVW_msg, MZS_filter, MZS_ext);
 #endif
 	if (result)
 	{
@@ -621,16 +620,16 @@ BOOL SaveStateFile(void)
 		if (result)
 		{
 			// Save Ok
-			wsprintf(strtmp,"State File %s\rSaved.", statefile);
+			wsprintf(strtmp, "State File %s\rSaved.", statefile);
 			MessageBox(hwndApp, strtmp,
-			   "MZ700WIN", MB_ICONINFORMATION|MB_OK);
+				"MZ700WIN", MB_ICONINFORMATION | MB_OK);
 		}
 		else
 		{
 			// Save Error
-			wsprintf(strtmp,"Can't save State File\r%s.", statefile);
+			wsprintf(strtmp, "Can't save State File\r%s.", statefile);
 			MessageBox(hwndApp, strtmp,
-					   "Error", MB_ICONEXCLAMATION|MB_OK);
+				"Error", MB_ICONEXCLAMATION | MB_OK);
 		}
 	}
 
@@ -638,22 +637,22 @@ BOOL SaveStateFile(void)
 }
 
 /********************/
-/* ó‘Ôƒ[ƒh‚Ìˆ— */
+/* ï¿½ï¿½Ôƒï¿½ï¿½[ï¿½hï¿½Ìï¿½ï¿½ï¿½ */
 /********************/
 BOOL LoadStateFile(void)
 {
 	BOOL result;
 	UINT8 strtmp[512];
 
-	/* ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğŠJ‚­ */
+	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½ */
 #if JAPANESE
-	result = setfile_foropen("ó‘Ôƒ[ƒh - Select State File", 
-							statefile, StateOpenDir,
-							MZS_filter, MZS_ext);
+	result = setfile_foropen("ï¿½ï¿½Ôƒï¿½ï¿½[ï¿½h - Select State File",
+		statefile, StateOpenDir,
+		MZS_filter, MZS_ext);
 #else
-	result = setfile_foropen("Load State - Select State File", 
-							statefile, StateOpenDir,
-							MZS_filter, MZS_ext);
+	result = setfile_foropen("Load State - Select State File",
+		statefile, StateOpenDir,
+		MZS_filter, MZS_ext);
 #endif
 	if (result)
 	{
@@ -662,9 +661,9 @@ BOOL LoadStateFile(void)
 		if (result)
 		{
 			// Load Ok
-			wsprintf(strtmp,"State File %s\rLoaded.", statefile);
+			wsprintf(strtmp, "State File %s\rLoaded.", statefile);
 			MessageBox(hwndApp, strtmp,
-			   "MZ700WIN", MB_ICONINFORMATION|MB_OK);
+				"MZ700WIN", MB_ICONINFORMATION | MB_OK);
 
 			update_membank();
 			mz_psg_init();
@@ -675,8 +674,8 @@ BOOL LoadStateFile(void)
 		else
 		{
 			// Load Error
-			MessageBox(hwndApp, "Bad State File." ,
-					   "Error", MB_ICONEXCLAMATION|MB_OK);
+			MessageBox(hwndApp, "Bad State File.",
+				"Error", MB_ICONEXCLAMATION | MB_OK);
 			mz_reset();
 
 		}

@@ -51,10 +51,10 @@ IDC_CURSOR1             CURSOR                  "cursor1.cur"
 
 APPMENU ACCELERATORS
 BEGIN
-    VK_F11,         MENU_PCG700,            VIRTKEY, NOINVERT
-    VK_F12,         MENU_RESET,             VIRTKEY, NOINVERT
-    VK_F6,          MENU_DB_TRACE,          VIRTKEY, NOINVERT
-    VK_RETURN,      MENU_FULLSCREEN,        VIRTKEY, ALT, NOINVERT
+VK_F11, MENU_PCG700, VIRTKEY, NOINVERT
+VK_F12, MENU_RESET, VIRTKEY, NOINVERT
+VK_F6, MENU_DB_TRACE, VIRTKEY, NOINVERT
+VK_RETURN, MENU_FULLSCREEN, VIRTKEY, ALT, NOINVERT
 END
 
 
@@ -65,63 +65,64 @@ END
 
 APPMENU MENU
 BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "&Open File",                  MENU_OPEN
-        MENUITEM "Set &QD",                     MENU_SETQD
-        MENUITEM "Eject QD",                    MENU_EJECTQD
-        MENUITEM SEPARATOR
-        MENUITEM "Set &Load Tape",              MENU_SET
-        MENUITEM "Set &Save Tape",              MENU_TAPESAVE
-        MENUITEM SEPARATOR
-        MENUITEM "Load RamFile",                MENU_LOADRAMFILE
-        MENUITEM "Save RamFile",                MENU_SAVERAMFILE
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+F4",               MENU_EXIT
-    END
-    POPUP "&Setting"
-    BEGIN
-        MENUITEM "MONITOR &Rom",                MENU_ROM
-        MENUITEM "Speed Control",               MENU_SPEED
-        POPUP "Screen Size"
-        BEGIN
-            MENUITEM "1:1",                         MENU_SCREEN_1_1
-            MENUITEM "2:2",                         MENU_SCREEN_2_2
-            MENUITEM "3:3",                         MENU_SCREEN_3_3
-            MENUITEM "4:4",                         MENU_SCREEN_4_4
-        END
-        POPUP "Screen Refresh"
-        BEGIN
-            MENUITEM "Every Frame",                 MENU_REFRESH_EVERY
-            MENUITEM "Every 2nd Frame",             MENU_REFRESH_2
-            MENUITEM "Every 3rd Frame",             MENU_REFRESH_3
-            MENUITEM "Every 4th Frame",             MENU_REFRESH_4
-        END
-        POPUP "Font Set"
-        BEGIN
-            MENUITEM "Europe",                      MENU_FONT_EUROPE
-            MENUITEM "Japan",                       MENU_FONT_JAPAN
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "Full Screen\tAlt+Enter",      MENU_FULLSCREEN
-    END
-    POPUP "&Keyboard"
-    BEGIN
-        MENUITEM SEPARATOR
-    END
-    POPUP "&Hardware"
-    BEGIN
-        MENUITEM "&PCG700-Sw\tF11",             MENU_PCG700
-        MENUITEM SEPARATOR
-        MENUITEM "&Load State...",              MENU_LOAD_STATE
-        MENUITEM "&Save State...",              MENU_SAVE_STATE
-        MENUITEM SEPARATOR
-        MENUITEM "&Reset\tF12",                 MENU_RESET
-    END
-    POPUP "&About"
-    BEGIN
-        MENUITEM "&About...",                   MENU_ABOUT
-    END
+POPUP "&File"
+BEGIN
+MENUITEM "&Open File", MENU_OPEN
+MENUITEM "Set &QD", MENU_SETQD
+MENUITEM "Eject QD", MENU_EJECTQD
+MENUITEM SEPARATOR
+MENUITEM "Set &Load Tape", MENU_SET
+MENUITEM "Set &Save Tape", MENU_TAPESAVE
+MENUITEM SEPARATOR
+MENUITEM "Load RamFile", MENU_LOADRAMFILE
+MENUITEM "Save RamFile", MENU_SAVERAMFILE
+MENUITEM SEPARATOR
+MENUITEM "E&xit\tAlt+F4", MENU_EXIT
+END
+POPUP "&Setting"
+BEGIN
+MENUITEM "MONITOR &Rom", MENU_ROM
+MENUITEM "Speed Control", MENU_SPEED
+POPUP "Screen Size"
+BEGIN
+MENUITEM "1:1", MENU_SCREEN_1_1
+MENUITEM "2:2", MENU_SCREEN_2_2
+MENUITEM "3:3", MENU_SCREEN_3_3
+MENUITEM "4:4", MENU_SCREEN_4_4
+MENUITEM "Fullscreen", MENU_SCREEN_FULLSCREEEN
+END
+POPUP "Screen Refresh"
+BEGIN
+MENUITEM "Every Frame", MENU_REFRESH_EVERY
+MENUITEM "Every 2nd Frame", MENU_REFRESH_2
+MENUITEM "Every 3rd Frame", MENU_REFRESH_3
+MENUITEM "Every 4th Frame", MENU_REFRESH_4
+END
+POPUP "Font Set"
+BEGIN
+MENUITEM "Europe", MENU_FONT_EUROPE
+MENUITEM "Japan", MENU_FONT_JAPAN
+END
+MENUITEM SEPARATOR
+MENUITEM "Full Screen\tAlt+Enter", MENU_FULLSCREEN
+END
+POPUP "&Keyboard"
+BEGIN
+MENUITEM SEPARATOR
+END
+POPUP "&Hardware"
+BEGIN
+MENUITEM "&PCG700-Sw\tF11", MENU_PCG700
+MENUITEM SEPARATOR
+MENUITEM "&Load State...", MENU_LOAD_STATE
+MENUITEM "&Save State...", MENU_SAVE_STATE
+MENUITEM SEPARATOR
+MENUITEM "&Reset\tF12", MENU_RESET
+END
+POPUP "&About"
+BEGIN
+MENUITEM "&About...", MENU_ABOUT
+END
 END
 
 
@@ -131,37 +132,37 @@ END
 //
 
 VERSIONINFO_1 VERSIONINFO
- FILEVERSION 0,5,8,0
- PRODUCTVERSION 0,5,8,0
- FILEFLAGSMASK 0x0L
+FILEVERSION 0, 5, 8, 0
+PRODUCTVERSION 0, 5, 8, 0
+FILEFLAGSMASK 0x0L
 #ifdef _DEBUG
- FILEFLAGS 0x1L
+FILEFLAGS 0x1L
 #else
- FILEFLAGS 0x0L
+FILEFLAGS 0x0L
 #endif
- FILEOS 0x4L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
+FILEOS 0x4L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
 BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "040904e4"
-        BEGIN
-            VALUE "CompanyName", "-"
-            VALUE "FileDescription", "MZ-700/1500 Emulator For Win32"
-            VALUE "FileVersion", "0.5.8"
-            VALUE "InternalName", "mz700win"
-            VALUE "LegalCopyright", "(C) 1998-2009 Marukun, 2009-2017 Marukun/Youkan, 2021 Marukun/Youkan/Snail"
-            VALUE "LegalTrademarks", "-"
-            VALUE "OriginalFilename", "MZ700WIN.EXE"
-            VALUE "ProductName", "MZ700WIN"
-            VALUE "ProductVersion", "0.5.8"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x409, 1252
-    END
+BLOCK "StringFileInfo"
+BEGIN
+BLOCK "040904e4"
+BEGIN
+VALUE "CompanyName", "-"
+VALUE "FileDescription", "MZ-700/1500 Emulator For Win32"
+VALUE "FileVersion", "0.5.8"
+VALUE "InternalName", "mz700win"
+VALUE "LegalCopyright", "(C) 1998-2009 Marukun, 2009-2017 Marukun/Youkan, 2021 Marukun/Youkan/Snail"
+VALUE "LegalTrademarks", "-"
+VALUE "OriginalFilename", "MZ700WIN.EXE"
+VALUE "ProductName", "MZ700WIN"
+VALUE "ProductVersion", "0.5.8"
+END
+END
+BLOCK "VarFileInfo"
+BEGIN
+VALUE "Translation", 0x409, 1252
+END
 END
 
 
@@ -176,16 +177,16 @@ EXSTYLE WS_EX_DLGMODALFRAME
 CAPTION "About MZ700WIN..."
 FONT 9, "‚l‚r ‚oƒSƒVƒbƒN", 0, 0, 0x1
 BEGIN
-    PUSHBUTTON      "OK",IDOK,66,108,54,18,BS_CENTER | BS_VCENTER
-    LTEXT           "MZ-700 Emulator 'MZ700WIN'",53248,30,6,102,12,SS_CENTERIMAGE | NOT WS_GROUP
-    ICON            "AppIcon",53253,6,12,20,20
-    LTEXT           "Version 0.58",IDC_TXT_VERSION,30,18,66,12,SS_CENTERIMAGE | NOT WS_GROUP
-    CONTROL         "",53260,"Static",SS_ETCHEDHORZ,30,30,144,1
-    LTEXT           "Copyright (C) 1998-2021 Marukun/Youkan/Snail",53249,30,36,144,12,SS_CENTERIMAGE | NOT WS_GROUP
-    LTEXT           "Based on Russell Marks's 'mz700em'",53250,30,48,124,12,SS_CENTERIMAGE | NOT WS_GROUP
-    LTEXT           "Z80 emulation from 'Z80em'\n  Copyright (C) Marcel de Kogel 1996,1997",53251,30,66,126,18,NOT WS_GROUP
-    LTEXT           "E-Mail : mz-memories@retropc.net",IDC_MAILTO,30,96,126,12,SS_NOTIFY | SS_CENTERIMAGE | NOT WS_GROUP
-    LTEXT           "http://retropc.net/mz-memories/mz700/",IDC_WWW,30,84,132,12,SS_NOTIFY | SS_CENTERIMAGE
+PUSHBUTTON      "OK", IDOK, 66, 108, 54, 18, BS_CENTER | BS_VCENTER
+LTEXT           "MZ-700 Emulator 'MZ700WIN'", 53248, 30, 6, 102, 12, SS_CENTERIMAGE | NOT WS_GROUP
+ICON            "AppIcon", 53253, 6, 12, 20, 20
+LTEXT           "Version 0.58", IDC_TXT_VERSION, 30, 18, 66, 12, SS_CENTERIMAGE | NOT WS_GROUP
+CONTROL         "", 53260, "Static", SS_ETCHEDHORZ, 30, 30, 144, 1
+LTEXT           "Copyright (C) 1998-2021 Marukun/Youkan/Snail", 53249, 30, 36, 144, 12, SS_CENTERIMAGE | NOT WS_GROUP
+LTEXT           "Based on Russell Marks's 'mz700em'", 53250, 30, 48, 124, 12, SS_CENTERIMAGE | NOT WS_GROUP
+LTEXT           "Z80 emulation from 'Z80em'\n  Copyright (C) Marcel de Kogel 1996,1997", 53251, 30, 66, 126, 18, NOT WS_GROUP
+LTEXT           "E-Mail : mz-memories@retropc.net", IDC_MAILTO, 30, 96, 126, 12, SS_NOTIFY | SS_CENTERIMAGE | NOT WS_GROUP
+LTEXT           "http://retropc.net/mz-memories/mz700/", IDC_WWW, 30, 84, 132, 12, SS_NOTIFY | SS_CENTERIMAGE
 END
 
 IDD_ROMDIALOG DIALOGEX 0, 0, 162, 91
@@ -193,12 +194,12 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Monitor ROM Setting"
 FONT 9, "‚l‚r ‚oƒSƒVƒbƒN", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,102,42,54,18
-    PUSHBUTTON      "Cancel",IDCANCEL,102,66,54,18
-    COMBOBOX        IDC_COMBO_ROM,6,12,156,74,CBS_DROPDOWNLIST | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Machine Mode",IDC_STATIC,6,36,90,48
-    CONTROL         "MZ-700",IDC_RADIO_700,"Button",BS_AUTORADIOBUTTON,34,50,39,10
-    CONTROL         "MZ-1500",IDC_RADIO_1500,"Button",BS_AUTORADIOBUTTON,34,65,42,10
+DEFPUSHBUTTON   "OK", IDOK, 102, 42, 54, 18
+PUSHBUTTON      "Cancel", IDCANCEL, 102, 66, 54, 18
+COMBOBOX        IDC_COMBO_ROM, 6, 12, 156, 74, CBS_DROPDOWNLIST | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+GROUPBOX        "Machine Mode", IDC_STATIC, 6, 36, 90, 48
+CONTROL         "MZ-700", IDC_RADIO_700, "Button", BS_AUTORADIOBUTTON, 34, 50, 39, 10
+CONTROL         "MZ-1500", IDC_RADIO_1500, "Button", BS_AUTORADIOBUTTON, 34, 65, 42, 10
 END
 
 IDD_SPDDIALOG DIALOGEX 0, 0, 387, 56
@@ -206,17 +207,17 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Speed Control"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,276,30,48,18
-    PUSHBUTTON      "Cancel",IDCANCEL,330,30,48,18
-    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,0,0,384,22
-    LTEXT           "Speed : 1000%",IDC_STATIC_SPD,12,30,54,18,SS_CENTERIMAGE
-    PUSHBUTTON      "100%",IDC_100,126,30,24,18
-    PUSHBUTTON      "10%",IDC_10,66,30,24,18
-    PUSHBUTTON      "50%",IDC_50,96,30,24,18
-    PUSHBUTTON      "200%",IDC_200,156,30,24,18
-    PUSHBUTTON      "400%",IDC_400,186,30,24,18
-    PUSHBUTTON      "800%",IDC_800,216,30,24,18
-    PUSHBUTTON      "1600%",IDC_1600,246,30,24,18
+DEFPUSHBUTTON   "OK", IDOK, 276, 30, 48, 18
+PUSHBUTTON      "Cancel", IDCANCEL, 330, 30, 48, 18
+CONTROL         "", IDC_SLIDER1, "msctls_trackbar32", TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP, 0, 0, 384, 22
+LTEXT           "Speed : 1000%", IDC_STATIC_SPD, 12, 30, 54, 18, SS_CENTERIMAGE
+PUSHBUTTON      "100%", IDC_100, 126, 30, 24, 18
+PUSHBUTTON      "10%", IDC_10, 66, 30, 24, 18
+PUSHBUTTON      "50%", IDC_50, 96, 30, 24, 18
+PUSHBUTTON      "200%", IDC_200, 156, 30, 24, 18
+PUSHBUTTON      "400%", IDC_400, 186, 30, 24, 18
+PUSHBUTTON      "800%", IDC_800, 216, 30, 24, 18
+PUSHBUTTON      "1600%", IDC_1600, 246, 30, 24, 18
 END
 
 
@@ -226,24 +227,24 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
-    "resrc1.h\0"
+"resrc1.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
-    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""windows.h""\r\n"
-    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""resource.h""\r\n"
-    "\0"
+"#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+"#include ""windows.h""\r\n"
+"#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+"#include ""resource.h""\r\n"
+"\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
-    "\r\n"
-    "\0"
+"\r\n"
+"\0"
 END
 
 #endif    // APSTUDIO_INVOKED
@@ -257,27 +258,27 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_DIALOG1, DIALOG
-    BEGIN
-        RIGHTMARGIN, 184
-        BOTTOMMARGIN, 128
-    END
+IDD_DIALOG1, DIALOG
+BEGIN
+RIGHTMARGIN, 184
+BOTTOMMARGIN, 128
+END
 
-    IDD_ROMDIALOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 155
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 84
-    END
+IDD_ROMDIALOG, DIALOG
+BEGIN
+LEFTMARGIN, 7
+RIGHTMARGIN, 155
+TOPMARGIN, 7
+BOTTOMMARGIN, 84
+END
 
-    IDD_SPDDIALOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 380
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 49
-    END
+IDD_SPDDIALOG, DIALOG
+BEGIN
+LEFTMARGIN, 7
+RIGHTMARGIN, 380
+TOPMARGIN, 7
+BOTTOMMARGIN, 49
+END
 END
 #endif    // APSTUDIO_INVOKED
 

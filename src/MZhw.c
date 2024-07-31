@@ -1,3 +1,4 @@
+ï»¿
 //----------------------------------------------------------------------------
 // File:MZhw.c
 // MZ-700/1500 Emulator MZ700WIN for Windows9x/NT/2000
@@ -37,34 +38,34 @@
 #include "mzbeep.h"
 #include "sn76489an.h"
 
-#define TEMPO_STROBE_TIME		14								/* ƒeƒ“ƒ|ƒrƒbƒg¶¬ŠÔŠu */
+#define TEMPO_STROBE_TIME		14								/* ãƒ†ãƒ³ãƒãƒ“ãƒƒãƒˆç”Ÿæˆé–“éš” */
 #define PIT_DEBUG 0
 
 /*** for z80.c ***/
 int IFreq = 60;
-int CpuSpeed=100;
+int CpuSpeed = 100;
 int Z80_IRQ;
 
 /* for memories of MZ */
-UINT8	*mem;													/* Main Memory */
-UINT8	*junk;													/* to give mmio somewhere to point at */
+UINT8* mem;													/* Main Memory */
+UINT8* junk;													/* to give mmio somewhere to point at */
 
-UINT8 *mz1r12_ptr;												/* pointer for MZ-1R12 */
-UINT8 *mz1r18_ptr;												/* pointer for MZ-1R18 (Ram File) */
+UINT8* mz1r12_ptr;												/* pointer for MZ-1R12 */
+UINT8* mz1r18_ptr;												/* pointer for MZ-1R18 (Ram File) */
 
 #ifdef KANJIROM
-UINT8 *mz1r23_ptr;												/* pointer for MZ-1R23 */
-UINT8 *mz1r24_ptr;												/* pointer for MZ-1R24 */
+UINT8* mz1r23_ptr;												/* pointer for MZ-1R23 */
+UINT8* mz1r24_ptr;												/* pointer for MZ-1R24 */
 #endif /*KANJIROM*/
 
-UINT8 *font;													/* Font ROM (4K) */
-UINT8 *pcg700_font;												/* PCG700 font (2K) */
-UINT8 *pcg1500_font_blue;										/* MZ-1500 PCG-BLUE (8K) */
-UINT8 *pcg1500_font_red;										/* MZ-1500 PCG-RED (8K) */
-UINT8 *pcg1500_font_green;										/* MZ-1500 PCG-GREEN (8K) */
+UINT8* font;													/* Font ROM (4K) */
+UINT8* pcg700_font;												/* PCG700 font (2K) */
+UINT8* pcg1500_font_blue;										/* MZ-1500 PCG-BLUE (8K) */
+UINT8* pcg1500_font_red;										/* MZ-1500 PCG-RED (8K) */
+UINT8* pcg1500_font_green;										/* MZ-1500 PCG-GREEN (8K) */
 
-int rom1_mode;													/* ROM-1 ”»•Ê—pƒtƒ‰ƒO */
-int rom2_mode;													/* ROM-2 ”»•Ê—pƒtƒ‰ƒO */
+int rom1_mode;													/* ROM-1 åˆ¤åˆ¥ç”¨ãƒ•ãƒ©ã‚° */
+int rom2_mode;													/* ROM-2 åˆ¤åˆ¥ç”¨ãƒ•ãƒ©ã‚° */
 
 /* HARDWARE STATUS WORK */
 THW700_STAT		hw700;
@@ -73,31 +74,31 @@ T700_TS			ts700;
 THW1500_STAT	hw1500;
 T1500_TS		ts1500;
 
-/* 8253ŠÖ˜Aƒ[ƒN */
+/* 8253é–¢é€£ãƒ¯ãƒ¼ã‚¯ */
 T8253_DAT		_8253_dat;
 T8253_STAT		_8253_stat[3];
 
-/* PIOŠÖ˜Aƒ[ƒN */
+/* PIOé–¢é€£ãƒ¯ãƒ¼ã‚¯ */
 TZ80PIO_STAT	Z80PIO_stat[2];
 
 /* MZ-1500PSG */
 TMZ1500PSG		mz1500psg[8];											// (3+1)*2
 
 /* for Keyboard Matrix */
-UINT8 keyports[10] ={ 0,0,0,0,0, 0,0,0,0,0 };
+UINT8 keyports[10] = { 0,0,0,0,0, 0,0,0,0,0 };
 
-// MZ‚ÌƒƒCƒ“ƒƒ‚ƒŠ‚Ìƒoƒ“ƒN|Àƒƒ‚ƒŠ‘Î‰•\
-static UINT8	*memptr[32];
+// MZã®ãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ¢ãƒªã®ãƒãƒ³ã‚¯ï¼å®Ÿãƒ¡ãƒ¢ãƒªå¯¾å¿œè¡¨
+static UINT8* memptr[32];
 
 //
 void update_membank(void)
 {
-	TMEMBANK *mb;
-	UINT8 *baseptr;
+	TMEMBANK* mb;
+	UINT8* baseptr;
 	int i;
 	UINT8 at;
 
-	for (i=0; i<32; i++)
+	for (i = 0; i < 32; i++)
 	{
 		mb = &hw700.memctrl[i];
 		at = 0;
@@ -153,7 +154,7 @@ void update_membank(void)
 		}
 
 		mb->attr = at;
-		memptr[i] = baseptr + (UINT32) mb->ofs;
+		memptr[i] = baseptr + (UINT32)mb->ofs;
 	}
 
 }
@@ -167,7 +168,7 @@ void vblnk_start(void)
 // Keyport Buffer Clear
 void mz_keyport_init(void)
 {
-	FillMemory(keyports, 10, 0xFF );
+	FillMemory(keyports, 10, 0xFF);
 }
 
 ///////////////
@@ -175,23 +176,23 @@ void mz_keyport_init(void)
 ///////////////
 void mz_keydown(WPARAM wParam)
 {
-	int i = (int) wParam;
-	UINT8 *kptr = get_keymattbl_ptr() + (menu.keytype << 8);
-	int n,b;
+	int i = (int)wParam;
+	UINT8* kptr = get_keymattbl_ptr() + (menu.keytype << 8);
+	int n, b;
 
-	if (kptr[i]==0xFF) return;
-	
+	if (kptr[i] == 0xFF) return;
+
 #if _DEBUG	
-	if ( Z80_Trace ) return;
+	if (Z80_Trace) return;
 #endif
-	
+
 	n = kptr[i] >> 4;
 	b = kptr[i] & 0x0F;
 	keyports[n] &= (~(1 << b));
 #if _DEBUG
-//	dprintf("keydown : kptr = %02x idx%d bit%d\n",i,n,b);
+	//	dprintf("keydown : kptr = %02x idx%d bit%d\n",i,n,b);
 #endif	
-	
+
 }
 
 ////////////
@@ -199,49 +200,49 @@ void mz_keydown(WPARAM wParam)
 ////////////
 void mz_keyup(WPARAM wParam)
 {
-	int i = (int) wParam;
-	UINT8 *kptr = get_keymattbl_ptr() + (menu.keytype << 8);
-	int n,b;
-	
-	if (kptr[i]==0xFF) return;
+	int i = (int)wParam;
+	UINT8* kptr = get_keymattbl_ptr() + (menu.keytype << 8);
+	int n, b;
+
+	if (kptr[i] == 0xFF) return;
 
 #if _DEBUG	
-	if ( Z80_Trace ) return;
+	if (Z80_Trace) return;
 #endif	
-	
+
 	n = kptr[i] >> 4;
 	b = kptr[i] & 0x0F;
 	keyports[n] |= (1 << b);
 #if _DEBUG
-//	dprintf("keyup : kptr = %02x idx%d bit%d\n",i,n,b);
+	//	dprintf("keyup : kptr = %02x idx%d bit%d\n",i,n,b);
 #endif	
 }
 
-/* ‚l‚y‚ğƒŠƒZƒbƒg‚·‚é */
+/* ï¼­ï¼ºã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹ */
 void mz_reset(void)
 {
 	int i, a;
-	TMEMBANK *mp;
+	TMEMBANK* mp;
 	Z80_Regs StartRegs;
 
-	/* ‚W‚Q‚T‚Rƒ[ƒN‚Ì‰Šú‰» */
-	ZeroMemory(&_8253_stat,sizeof(_8253_stat));
-	ZeroMemory(&_8253_dat,sizeof(_8253_dat));
+	/* ï¼˜ï¼’ï¼•ï¼“ãƒ¯ãƒ¼ã‚¯ã®åˆæœŸåŒ– */
+	ZeroMemory(&_8253_stat, sizeof(_8253_stat));
+	ZeroMemory(&_8253_dat, sizeof(_8253_dat));
 
-	/* ‚l‚yƒ[ƒN‚Ì‰Šú‰» */
-	ZeroMemory(&hw700,sizeof(hw700));
-	ZeroMemory(&ts700,sizeof(ts700));
-	ZeroMemory(&hw1500,sizeof(hw1500));
-	ZeroMemory(&ts1500,sizeof(ts1500));
+	/* ï¼­ï¼ºãƒ¯ãƒ¼ã‚¯ã®åˆæœŸåŒ– */
+	ZeroMemory(&hw700, sizeof(hw700));
+	ZeroMemory(&ts700, sizeof(ts700));
+	ZeroMemory(&hw1500, sizeof(hw1500));
+	ZeroMemory(&ts1500, sizeof(ts1500));
 
-	/* ‚o‚h‚s‰Šú‰» */
+	/* ï¼°ï¼©ï¼´åˆæœŸåŒ– */
 	pit_init();
 
-	/* ‚y‚W‚OƒŒƒWƒXƒ^‚Ì‰Šú‰» */
+	/* ï¼ºï¼˜ï¼ãƒ¬ã‚¸ã‚¹ã‚¿ã®åˆæœŸåŒ– */
 	Z80_SetRegs(&StartRegs);
 
-	/* ƒoƒ“ƒN\¬‚ğ‰Šú‰» */
-	for (a=0,i=0; i<26; i++)
+	/* ãƒãƒ³ã‚¯æ§‹æˆã‚’åˆæœŸåŒ– */
+	for (a = 0, i = 0; i < 26; i++)
 	{
 		mp = &hw700.memctrl[i];
 		mp->ofs = a;
@@ -249,49 +250,49 @@ void mz_reset(void)
 		a += 0x800;
 	}
 
-	Z80_Out(0xE4,0);			// $0000-$0FFF:ROM  $E000-$FFFF:MMIO/ROM2
+	Z80_Out(0xE4, 0);			// $0000-$0FFF:ROM  $E000-$FFFF:MMIO/ROM2
 	update_membank();
 
-	/* 1500‚o‚r‚f‰Šú‰» */
+	/* 1500ï¼°ï¼³ï¼§åˆæœŸåŒ– */
 	mz_psg_init();
 
-	/* ƒL[ƒ|[ƒg‚Ì‰Šú‰» */
+	/* ã‚­ãƒ¼ãƒãƒ¼ãƒˆã®åˆæœŸåŒ– */
 	mz_keyport_init();
 
 	/* RDINFwork Clear */
 	clr_rdinf_buf();
 
-    if (rom1_mode <= MON_OTHERS || rom1_mode >= MON_NEWMON700)
-    {
-        // ƒ‚ƒjƒ^ƒ[ƒN‚Ì‰Šú‰»
-        ZeroMemory(mem + RAM_START + 0x1000, 0x200);
-        // VRAM‚Ì‰Šú‰»
-        ZeroMemory(mem + VID_START , 0x0400);
-        FillMemory(mem + VID_START + 0x800 , 0x0400, (bk_color) ? bk_color : 0x71);
-    }
-	// ‰æ–Êbltƒtƒ‰ƒO
+	if (rom1_mode <= MON_OTHERS || rom1_mode >= MON_NEWMON700)
+	{
+		// ãƒ¢ãƒ‹ã‚¿ãƒ¯ãƒ¼ã‚¯ã®åˆæœŸåŒ–
+		ZeroMemory(mem + RAM_START + 0x1000, 0x200);
+		// VRAMã®åˆæœŸåŒ–
+		ZeroMemory(mem + VID_START, 0x0400);
+		FillMemory(mem + VID_START + 0x800, 0x0400, (bk_color) ? bk_color : 0x71);
+	}
+	// ç”»é¢bltãƒ•ãƒ©ã‚°
 	mz_refresh_screen(REFSC_ALL);
 
-	Z80_intflag=0;
-	
-	mz_palet_init();											/* 1500ƒpƒŒƒbƒg‰Šú‰» */
+	Z80_intflag = 0;
 
-//	hw700.pcg700_mode=8;
-	hw700.tempo_strobe=1;
+	mz_palet_init();											/* 1500ãƒ‘ãƒ¬ãƒƒãƒˆåˆæœŸåŒ– */
 
-	hw700.retrace=1;
-	hw700.motor=1;												/* ƒJƒZƒbƒgƒ‚[ƒ^[ */
+	//	hw700.pcg700_mode=8;
+	hw700.tempo_strobe = 1;
 
-	/* ƒTƒEƒ“ƒh(8253#0)‚Ì‰Šú‰» */
-	_8253_dat.beep_mask=1;
-	_8253_dat.int_mask=4;
-	
+	hw700.retrace = 1;
+	hw700.motor = 1;												/* ã‚«ã‚»ãƒƒãƒˆãƒ¢ãƒ¼ã‚¿ãƒ¼ */
+
+	/* ã‚µã‚¦ãƒ³ãƒ‰(8253#0)ã®åˆæœŸåŒ– */
+	_8253_dat.beep_mask = 1;
+	_8253_dat.int_mask = 4;
+
 	hw1500.e5_bak = -1;
-	
-	/* ‚y‚W‚O‚ÌƒŠƒZƒbƒg */
+
+	/* ï¼ºï¼˜ï¼ã®ãƒªã‚»ãƒƒãƒˆ */
 	Z80_Reset();
 
-	/* ƒXƒŒƒbƒh@ŠJn */
+	/* ã‚¹ãƒ¬ãƒƒãƒ‰ã€€é–‹å§‹ */
 	start_thread();
 }
 
@@ -300,14 +301,14 @@ void mz_reset(void)
 /////////////////////////////////////////////////////////////////
 
 //////////////
-// PIT ‰Šú‰»
+// PIT åˆæœŸåŒ–
 //////////////
 void pit_init(void)
 {
-	T8253_STAT *st;
+	T8253_STAT* st;
 	int i;
 
-	for (i=0;i<2;i++)
+	for (i = 0; i < 2; i++)
 	{
 		st = &_8253_stat[i];
 		st->rl = st->rl_bak = 3;
@@ -317,7 +318,7 @@ void pit_init(void)
 	}
 
 	_8253_dat.int_mask = 0;
-	
+
 	_8253_dat.bcd = 0;
 	_8253_dat.m = 0;
 	_8253_dat.rl = 3;
@@ -329,8 +330,8 @@ void pit_init(void)
 ////////////////////////////
 void write_8253_cw(int cw)
 {
-	T8253_STAT *st;
-	
+	T8253_STAT* st;
+
 	_8253_dat.bcd = cw & 1;
 	_8253_dat.m = (cw >> 1) & 7;
 	_8253_dat.rl = (cw >> 4) & 3;
@@ -338,21 +339,21 @@ void write_8253_cw(int cw)
 
 	st = &_8253_stat[_8253_dat.sc];
 
-	// counter 0 ‚Ìƒ‚[ƒh‚ğƒZƒbƒg‚µ‚½‚ç, ƒJƒEƒ“ƒ^‚ª~‚Ü‚é‚Ì‚Å, ‰¹‚à~‚Ü‚è‚Ü‚·. ‚È‚°‚â‚è‘Î‰ Snail 2021.12.23
+	// counter 0 ã®ãƒ¢ãƒ¼ãƒ‰ã‚’ã‚»ãƒƒãƒˆã—ãŸã‚‰, ã‚«ã‚¦ãƒ³ã‚¿ãŒæ­¢ã¾ã‚‹ã®ã§, éŸ³ã‚‚æ­¢ã¾ã‚Šã¾ã™. ãªã’ã‚„ã‚Šå¯¾å¿œ Snail 2021.12.23
 	if (_8253_dat.sc == 0) {
 		mzbeep_stop();
 	}
-	
-//	if (_8253_dat.sc==2) st->counter_out = 0;								/* count#2,then clr */
-    st->counter_out = 0;								/* count clr */
 
-	/* ƒJƒEƒ“ƒ^Eƒ‰ƒbƒ`EƒIƒyƒŒ[ƒVƒ‡ƒ“ */
-	if (_8253_dat.rl==0)
+	//	if (_8253_dat.sc==2) st->counter_out = 0;								/* count#2,then clr */
+	st->counter_out = 0;								/* count clr */
+
+	/* ã‚«ã‚¦ãƒ³ã‚¿ãƒ»ãƒ©ãƒƒãƒãƒ»ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ */
+	if (_8253_dat.rl == 0)
 	{
 		st->counter_lat = st->counter;
 		st->lat_flag = 1;
 #if PIT_DEBUG	
-	dprintf("Count%d latch\n",_8253_dat.sc);
+		dprintf("Count%d latch\n", _8253_dat.sc);
 #endif
 		return;
 	}
@@ -365,19 +366,19 @@ void write_8253_cw(int cw)
 	st->mode = _8253_dat.m;
 
 #if PIT_DEBUG	
-	dprintf("Count%d mode=%d rl=%d bcd=%d\n",_8253_dat.sc,_8253_dat.m,
-		_8253_dat.rl,_8253_dat.bcd);
+	dprintf("Count%d mode=%d rl=%d bcd=%d\n", _8253_dat.sc, _8253_dat.m,
+		_8253_dat.rl, _8253_dat.bcd);
 #endif
-	
+
 }
 
 ////////////////////////////
 // Z80 PIO Control Register
 ////////////////////////////
-void mz_z80pio_ctrl(int port,int value)
+void mz_z80pio_ctrl(int port, int value)
 {
-	TZ80PIO_STAT *pio;
-	
+	TZ80PIO_STAT* pio;
+
 	pio = &Z80PIO_stat[port];
 
 	if (pio->cont == 1)
@@ -385,88 +386,88 @@ void mz_z80pio_ctrl(int port,int value)
 		pio->iosel = value;
 		pio->cont = 0;
 #if _DEBUG
-		dprintf("Z80PIO:%d:iosel=$%02x\n",port,pio->iosel);
+		dprintf("Z80PIO:%d:iosel=$%02x\n", port, pio->iosel);
 #endif		
 		return;
 	}
 	else
-	if (pio->cont == 2)
-	{
-		pio->imask = value;
-		pio->cont = 0;
+		if (pio->cont == 2)
+		{
+			pio->imask = value;
+			pio->cont = 0;
 #if _DEBUG
-		dprintf("Z80PIO:%d:imask=$%02x\n",port,pio->imask);
+			dprintf("Z80PIO:%d:imask=$%02x\n", port, pio->imask);
 #endif		
-		return;
-	}
-		
-	if ( (value & 0x0F) == 0x0F)										/* ƒ‚[ƒhEƒ[ƒh‚Å‚ ‚é‚±‚Æ‚Ìˆó */
+			return;
+		}
+
+	if ((value & 0x0F) == 0x0F)										/* ãƒ¢ãƒ¼ãƒ‰ãƒ»ãƒ¯ãƒ¼ãƒ‰ã§ã‚ã‚‹ã“ã¨ã®å° */
 	{
 		pio->mode = (value >> 6) & 3;
 #if _DEBUG
-		dprintf("Z80PIO:%d:mode=%d\n",port,pio->mode);
+		dprintf("Z80PIO:%d:mode=%d\n", port, pio->mode);
 #endif
 		if (pio->mode == 3)
 			pio->cont = 1;												/* mode 2nd */
 	}
 	else
-	if ( (value & 0x0F) == 0x07)										/* Š„‚İ§Œäƒ[ƒh‚Å‚ ‚é‚±‚Æ‚Ìˆó */
-	{
-		pio->intw = value & 0xF0;
+		if ((value & 0x0F) == 0x07)										/* å‰²è¾¼ã¿åˆ¶å¾¡ãƒ¯ãƒ¼ãƒ‰ã§ã‚ã‚‹ã“ã¨ã®å° */
+		{
+			pio->intw = value & 0xF0;
 #if _DEBUG
-		dprintf("Z80PIO:%d:intw=$%02x\n",port,pio->intw);
+			dprintf("Z80PIO:%d:intw=$%02x\n", port, pio->intw);
 #endif		
-		if (pio->intw & 0x10)
-			pio->cont = 2;												/* mask follows 2nd */
-	}
-	else
-	if ( (value & 0x0F) == 0x03)										/* Š„‚İ‹–‰Âƒ[ƒh‚Å‚ ‚é‚±‚Æ‚Ìˆó */
-	{
-		pio->intw &= 0x70;
-		pio->intw |= (value & 0x80);
+			if (pio->intw & 0x10)
+				pio->cont = 2;												/* mask follows 2nd */
+		}
+		else
+			if ((value & 0x0F) == 0x03)										/* å‰²è¾¼ã¿è¨±å¯ãƒ¯ãƒ¼ãƒ‰ã§ã‚ã‚‹ã“ã¨ã®å° */
+			{
+				pio->intw &= 0x70;
+				pio->intw |= (value & 0x80);
 #if _DEBUG
-		dprintf("Z80PIO:%d:intw=$%02x\n",port,pio->intw);
+				dprintf("Z80PIO:%d:intw=$%02x\n", port, pio->intw);
 #endif		
-	}
-	else
-	if ( (value & 0x01) == 0x00)										/* ƒxƒNƒgƒ‹ƒ[ƒh‚Å‚ ‚é‚±‚Æ‚Ìˆó */
-	{
-		pio->intv = value;												/* ƒxƒNƒgƒ‹Eƒ[ƒh */
+			}
+			else
+				if ((value & 0x01) == 0x00)										/* ãƒ™ã‚¯ãƒˆãƒ«ãƒ¯ãƒ¼ãƒ‰ã§ã‚ã‚‹ã“ã¨ã®å° */
+				{
+					pio->intv = value;												/* ãƒ™ã‚¯ãƒˆãƒ«ãƒ»ãƒ¯ãƒ¼ãƒ‰ */
 #if _DEBUG
-		dprintf("Z80PIO:%d:intv=$%02x\n",port,pio->intv);
+					dprintf("Z80PIO:%d:intv=$%02x\n", port, pio->intv);
 #endif		
-	}
-		
+				}
+
 }
 
 // Z80 PIO Data Register
-void mz_z80pio_data(int port,int value)
+void mz_z80pio_data(int port, int value)
 {
 
 
 }
 
-// Z80PIO Š„‚İˆ—Às
+// Z80PIO å‰²è¾¼ã¿å‡¦ç†å®Ÿè¡Œ
 void pio_intjob(int out)
 {
-	if (Z80PIO_stat[0].intw & 0x80)										/* Š„‚è‚İg—p‚Ì—L–³ */
+	if (Z80PIO_stat[0].intw & 0x80)										/* å‰²ã‚Šè¾¼ã¿ä½¿ç”¨ã®æœ‰ç„¡ */
 	{
-//		dprintf("intv=$%02x\n",Z80PIO_stat[0].intv);
+		//		dprintf("intv=$%02x\n",Z80PIO_stat[0].intv);
 		Z80_intflag |= 2;
 		if (out == 0)
-			Z80PIO_stat[0].pin |= 0x10;									/* (INT 0)“Ç‚İ‚Ü‚ê‚éƒf[ƒ^‚Ì‰Šú‰» */
+			Z80PIO_stat[0].pin |= 0x10;									/* (INT 0)èª­ã¿è¾¼ã¾ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ– */
 		else
-			Z80PIO_stat[0].pin |= 0x20;									/* (INT 1)“Ç‚İ‚Ü‚ê‚éƒf[ƒ^‚Ì‰Šú‰» */
+			Z80PIO_stat[0].pin |= 0x20;									/* (INT 1)èª­ã¿è¾¼ã¾ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ– */
 		Interrupt((int)(Z80PIO_stat[0].intv));
 	}
 }
 
-// Z80PIOŠ„‚è‚İ—pƒJƒEƒ“ƒ^
+// Z80PIOå‰²ã‚Šè¾¼ã¿ç”¨ã‚«ã‚¦ãƒ³ã‚¿
 int pio_pitcount(void)
 {
-	T8253_STAT *st;
+	T8253_STAT* st;
 	int out;
-	
+
 	st = &_8253_stat[0];
 	out = 0;
 
@@ -474,24 +475,24 @@ int pio_pitcount(void)
 	// pit int=INT0(A3) or CPU INT
 	if (_8253_dat.makesound)											/* e008 makesound=gate */
 	{
-		if (st->mode != 3)												/* •ûŒ`”g‚ÌŒJ‚è•Ô‚µ”gŒ`‚¶‚á‚È‚©‚Á‚½‚çˆ— */
+		if (st->mode != 3)												/* æ–¹å½¢æ³¢ã®ç¹°ã‚Šè¿”ã—æ³¢å½¢ã˜ã‚ƒãªã‹ã£ãŸã‚‰å‡¦ç† */
 		{
-			if (pitcount_job(0,PIO_TIMER_RESO))
+			if (pitcount_job(0, PIO_TIMER_RESO))
 			{
 				out = 1;
 			}
 		}
 	}
-	
+
 	return out;
 }
 
 //
-int pitcount_job(int no,int cou)
+int pitcount_job(int no, int cou)
 {
-	T8253_STAT *st;
+	T8253_STAT* st;
 	int out;
-	
+
 	st = &_8253_stat[no];
 	out = 0;
 	if (!st->running) return 0;
@@ -502,41 +503,41 @@ int pitcount_job(int no,int cou)
 	case 0:
 		if (st->counter <= 0)
 		{
-			out=1;
+			out = 1;
 			st->counter = 0;
 		}
 		else
 		{
-			st->counter-=cou;
+			st->counter -= cou;
 		}
 		break;
 
 		/* mode 2 */
 	case 2:
-		st->counter-=cou;
-		if (st->counter<=0)
+		st->counter -= cou;
+		if (st->counter <= 0)
 		{
-			/* ƒJƒEƒ“ƒ^‰Šú’lƒZƒbƒg */
-			st->counter = (int) st->counter_base;
-//			do{
-//			st->counter += (int) st->counter_base;
-//			}while (st->counter<0);
-			out=1;														/* out pulse */
+			/* ã‚«ã‚¦ãƒ³ã‚¿åˆæœŸå€¤ã‚»ãƒƒãƒˆ */
+			st->counter = (int)st->counter_base;
+			//			do{
+			//			st->counter += (int) st->counter_base;
+			//			}while (st->counter<0);
+			out = 1;														/* out pulse */
 		}
 
 		break;
-		
+
 	case 3:
-		break;	
+		break;
 
 		/* mode 4 */
 	case 4:
-		st->counter-=cou;
-		if (st->counter<=0)
+		st->counter -= cou;
+		if (st->counter <= 0)
 		{
-			/* ƒJƒEƒ“ƒ^‰Šú’lƒZƒbƒg */
+			/* ã‚«ã‚¦ãƒ³ã‚¿åˆæœŸå€¤ã‚»ãƒƒãƒˆ */
 			st->counter = -1;
-			out=1;														/* out pulse (1 time only) */
+			out = 1;														/* out pulse (1 time only) */
 		}
 		break;
 
@@ -553,11 +554,11 @@ int pit_count(void)
 {
 	int ret = 0;
 
-	/* ƒJƒEƒ“ƒ^‚P‚ği‚ß‚é */
-	if (pitcount_job(1,1))
+	/* ã‚«ã‚¦ãƒ³ã‚¿ï¼‘ã‚’é€²ã‚ã‚‹ */
+	if (pitcount_job(1, 1))
 	{
-		/* ƒJƒEƒ“ƒ^‚Q‚ği‚ß‚é */
-		ret = pitcount_job(2,1);
+		/* ã‚«ã‚¦ãƒ³ã‚¿ï¼’ã‚’é€²ã‚ã‚‹ */
+		ret = pitcount_job(2, 1);
 	}
 
 	return ret;
@@ -569,36 +570,36 @@ int pit_count(void)
 //
 void play8253(void)
 {
-	int freq2,freqtmp;
+	int freq2, freqtmp;
 
 	if (sound_di) return;
 
-	if ((!_8253_dat.beep_mask) ) {
-		if (_8253_dat.setsound)	{
+	if ((!_8253_dat.beep_mask)) {
+		if (_8253_dat.setsound) {
 			_8253_dat.setsound = 0;
 			mzbeep_stop();
 		}
 		return;
 	}
 
-	// ƒTƒEƒ“ƒh‚ğ–Â‚ç‚·
-	freqtmp = _8253_stat[0].counter_base;		
+	// ã‚µã‚¦ãƒ³ãƒ‰ã‚’é³´ã‚‰ã™
+	freqtmp = _8253_stat[0].counter_base;
 	if (_8253_dat.makesound == 0) {
-	  _8253_dat.setsound = 0;
+		_8253_dat.setsound = 0;
 		mzbeep_stop();
 	}
 	else
-	if (freqtmp > 0) {
-		// play
-		freq2 = (895000 / freqtmp);
-		_8253_dat.setsound = 1;
-		mzbeep_setFreq(freq2);
-	}
-	else
-	{
-		// stop
-		mzbeep_stop();
-	}
+		if (freqtmp > 0) {
+			// play
+			freq2 = (895000 / freqtmp);
+			_8253_dat.setsound = 1;
+			mzbeep_setFreq(freq2);
+		}
+		else
+		{
+			// stop
+			mzbeep_stop();
+		}
 }
 
 ///////////////////////////////
@@ -618,7 +619,7 @@ void mz_psg_init(void)
 }
 
 // PSG Out
-void mz_psg_out(int port,int value)
+void mz_psg_out(int port, int value)
 {
 	// No Use
 }
@@ -646,16 +647,16 @@ unsigned Z80_RDMEM(dword x)
 	if (!attr)
 	{
 		M_CSTATE(1);													/* wait */
-		
+
 	}
 	if (attr & 4)
 	{
-//		if (hw700.retrace)												/* not V-blank? */
+		//		if (hw700.retrace)												/* not V-blank? */
 		{
 			M_CSTATE(VRAM_ACCESS_WAIT);									/* wait */
 		}
 	}
-	return (attr&2)?mmio_in(x):memptr[page][x&0x7FF];
+	return (attr & 2) ? mmio_in(x) : memptr[page][x & 0x7FF];
 }
 
 // WRITE
@@ -668,21 +669,21 @@ void Z80_WRMEM(dword x, dword y)
 	}
 #endif		  
 	int attr = hw700.memctrl[page].attr;
-		  
-	if(attr&2) mmio_out(x,y);
+
+	if (attr & 2) mmio_out(x, y);
 	else
-	if(attr)
-	{
-		memptr[page][x&0x7FF] = (BYTE) y;
-		if (attr & 4)
+		if (attr)
 		{
-			mz_blt_screen();											/* VRAMƒAƒNƒZƒX‚ª‚ ‚ê‚ÎRefresh */
-//			if (hw700.retrace)											/* not V-blank? */
+			memptr[page][x & 0x7FF] = (BYTE)y;
+			if (attr & 4)
 			{
-				M_CSTATE(VRAM_ACCESS_WAIT);								/* wait */
+				mz_blt_screen();											/* VRAMã‚¢ã‚¯ã‚»ã‚¹ãŒã‚ã‚Œã°Refresh */
+				//			if (hw700.retrace)											/* not V-blank? */
+				{
+					M_CSTATE(VRAM_ACCESS_WAIT);								/* wait */
+				}
 			}
 		}
-	}
 }
 
 ////////////////////////////////////////////////////////////
@@ -692,56 +693,56 @@ void Z80_WRMEM(dword x, dword y)
 int mmio_in(int addr)
 {
 	int tmp;
-	T8253_STAT *st;
+	T8253_STAT* st;
 
-	switch(addr)
+	switch (addr)
 	{
 	case 0xE000:
 		return 0xff;
-		
+
 	case 0xE001:
 		/* read keyboard */
 		return keyports[hw700.pb_select];
-		
+
 	case 0xE002:
 		/* bit 4 - motor (on=1)
 		 * bit 5 - tape data
 		 * bit 6 - cursor blink timer
 		 * bit 7 - vertical blanking signal (retrace?)
 		 */
-		tmp=((hw700.cursor_cou%25>15) ? 0x40:0);						/* ƒJ[ƒ\ƒ‹“_–Åƒ^ƒCƒ}[ */
-		tmp=(((hw700.retrace^1)<<7)|(hw700.motor<<4)|tmp|0x0F);						
+		tmp = ((hw700.cursor_cou % 25 > 15) ? 0x40 : 0);						/* ã‚«ãƒ¼ã‚½ãƒ«ç‚¹æ»…ã‚¿ã‚¤ãƒãƒ¼ */
+		tmp = (((hw700.retrace ^ 1) << 7) | (hw700.motor << 4) | tmp | 0x0F);
 		return tmp;
-		
+
 	case 0xE003:
 		return 0xff;
-		
-		/* ‚o‚h‚sŠÖ˜A */
+
+		/* ï¼°ï¼©ï¼´é–¢é€£ */
 	case 0xE004:
 	case 0xE005:
 	case 0xE006:
-		st = &_8253_stat[addr-0xE004];
-		
+		st = &_8253_stat[addr - 0xE004];
+
 		if (st->lat_flag)
 		{
-			/* ƒJƒEƒ“ƒ^ƒ‰ƒbƒ`ƒIƒyƒŒ[ƒVƒ‡ƒ“ */
+			/* ã‚«ã‚¦ãƒ³ã‚¿ãƒ©ãƒƒãƒã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ */
 			switch (st->rl)
 			{
 			case 1:
-				/* ‰ºˆÊ‚WƒrƒbƒgŒÄ‚Ño‚µ */
+				/* ä¸‹ä½ï¼˜ãƒ“ãƒƒãƒˆå‘¼ã³å‡ºã— */
 				st->lat_flag = 0;						// counter latch opelation: off
 				return (st->counter_lat & 255);
 			case 2:
-				/* ãˆÊ‚WƒrƒbƒgŒÄ‚Ño‚µ */
+				/* ä¸Šä½ï¼˜ãƒ“ãƒƒãƒˆå‘¼ã³å‡ºã— */
 				st->lat_flag = 0;						// counter latch opelation: off
 				return (st->counter_lat >> 8);
 			case 3:
-				/* ƒJƒEƒ“ƒ^Eƒ‰ƒbƒ`EƒIƒyƒŒ[ƒVƒ‡ƒ“ */
-				if((st->bit_hl^=1)) return (st->counter_lat & 255);			/* ‰ºˆÊ */
+				/* ã‚«ã‚¦ãƒ³ã‚¿ãƒ»ãƒ©ãƒƒãƒãƒ»ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ */
+				if ((st->bit_hl ^= 1)) return (st->counter_lat & 255);			/* ä¸‹ä½ */
 				else
 				{
 					st->lat_flag = 0;					// counter latch opelation: off
-					return (st->counter_lat>>8); 	/* ãˆÊ */
+					return (st->counter_lat >> 8); 	/* ä¸Šä½ */
 				}
 
 				break;
@@ -754,15 +755,15 @@ int mmio_in(int addr)
 			switch (st->rl)
 			{
 			case 1:
-				/* ‰ºˆÊ‚WƒrƒbƒgŒÄ‚Ño‚µ */
+				/* ä¸‹ä½ï¼˜ãƒ“ãƒƒãƒˆå‘¼ã³å‡ºã— */
 				return (st->counter & 255);
 			case 2:
-				/* ãˆÊ‚WƒrƒbƒgŒÄ‚Ño‚µ */
-				return (st->counter>>8);
+				/* ä¸Šä½ï¼˜ãƒ“ãƒƒãƒˆå‘¼ã³å‡ºã— */
+				return (st->counter >> 8);
 			case 3:
-				/* ‰ºˆÊEãˆÊ */
-				if((st->bit_hl^=1)) return (st->counter & 255);
-				else return (st->counter>>8);
+				/* ä¸‹ä½ãƒ»ä¸Šä½ */
+				if ((st->bit_hl ^= 1)) return (st->counter & 255);
+				else return (st->counter >> 8);
 			default:
 				return 0xff;
 			}
@@ -770,9 +771,9 @@ int mmio_in(int addr)
 		break;
 
 	case 0xE008:
-		/* ‰¹‚ğ–Â‚ç‚·‚½‚ß‚Ìƒ^ƒCƒ~ƒ“ƒOƒrƒbƒg¶¬ */
+		/* éŸ³ã‚’é³´ã‚‰ã™ãŸã‚ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ãƒ“ãƒƒãƒˆç”Ÿæˆ */
 		return (0x7e | hw700.tempo_strobe);
-		
+
 	default:
 		/* all unused ones seem to give 7Eh */
 		return 0x7e;
@@ -780,23 +781,23 @@ int mmio_in(int addr)
 }
 
 // OUT
-void mmio_out(int addr,int val)
+void mmio_out(int addr, int val)
 {
-	T8253_STAT *st;
+	T8253_STAT* st;
 	int i;
 
-	switch(addr)
+	switch (addr)
 	{
 	case 0xE000:
 		if (!(val & 0x80)) hw700.cursor_cou = 0;	// cursor blink timer reset
 
 		hw700.pb_select = (val & 15);
-		if (hw700.pb_select>9) hw700.pb_select=9;
+		if (hw700.pb_select > 9) hw700.pb_select = 9;
 		break;
-		
+
 	case 0xE001:
-	  break;
-  
+		break;
+
 	case 0xE002:
 		/* bit 0 - 8253 mask
 		 * bit 1 - cassete write data
@@ -804,13 +805,13 @@ void mmio_out(int addr,int val)
 		 * bit 3 - motor on
 		 */
 		_8253_dat.beep_mask = val & 0x01;
-		_8253_dat.int_mask=val & 0x04;
+		_8253_dat.int_mask = val & 0x04;
 #if _DEBUG		
-		dprintf("write beep_mask=%d int_mask=%d\n",_8253_dat.beep_mask,_8253_dat.int_mask);
+		dprintf("write beep_mask=%d int_mask=%d\n", _8253_dat.beep_mask, _8253_dat.int_mask);
 #endif
 		play8253();
 		break;
-		
+
 	case 0xE003:
 		// bit0:   1=Set / 0=Reset
 		// Bit1-3: PC0-7
@@ -851,7 +852,7 @@ void mmio_out(int addr,int val)
 				// 1 byte: long:stop bit/ 1=long 0=short *8
 			case 1:
 #if _DEBUG
-				dprintf("cmt_tstates=%d\n",ts700.cmt_tstates);		// short=650,long=1252 ?
+				dprintf("cmt_tstates=%d\n", ts700.cmt_tstates);		// short=650,long=1252 ?
 #endif
 				break;
 
@@ -860,105 +861,105 @@ void mmio_out(int addr,int val)
 				break;
 			}
 		}
-		if (i==0 || i==2)
+		if (i == 0 || i == 2)
 		{
 #if _DEBUG		
-			dprintf("E003:beep_mask=%d int_mask=%d\n",_8253_dat.beep_mask,_8253_dat.int_mask);
+			dprintf("E003:beep_mask=%d int_mask=%d\n", _8253_dat.beep_mask, _8253_dat.int_mask);
 #endif
 			play8253();
 		}
 
 		break;
-		
+
 	case 0xE004:
 	case 0xE005:
 	case 0xE006:
-		/* ƒJƒEƒ“ƒ^‚É‘‚«‚İ */
-		st = &_8253_stat[addr-0xE004];
-		if (st->mode == 0)												/* ƒ‚[ƒh‚O‚¾‚Á‚½‚çAout‚ğƒNƒŠƒA */
+		/* ã‚«ã‚¦ãƒ³ã‚¿ã«æ›¸ãè¾¼ã¿ */
+		st = &_8253_stat[addr - 0xE004];
+		if (st->mode == 0)												/* ãƒ¢ãƒ¼ãƒ‰ï¼ã ã£ãŸã‚‰ã€outã‚’ã‚¯ãƒªã‚¢ */
 		{
 			st->counter_out = 0;
 		}
 		st->lat_flag = 0;						// counter latch opelation: off
 
-		switch(st->rl)
+		switch (st->rl)
 		{
 		case 1:
-			/* ‰ºˆÊ‚Wƒrƒbƒg‘‚«‚İ */
-			st->counter_base = (val&0x00FF);
+			/* ä¸‹ä½ï¼˜ãƒ“ãƒƒãƒˆæ›¸ãè¾¼ã¿ */
+			st->counter_base = (val & 0x00FF);
 			if (!st->running || (st->mode != 2 && st->mode != 3)) {
 				st->counter = st->counter_base;
 			}
 #if PIT_DEBUG			
-			dprintf("Count%d=$%04X\n",addr-0xe004,st->counter);
+			dprintf("Count%d=$%04X\n", addr - 0xe004, st->counter);
 #endif
-			st->bit_hl=0;
+			st->bit_hl = 0;
 			st->running = 1;
 			break;
 		case 2:
-			/* ãˆÊ‚Wƒrƒbƒg‘‚«‚İ */
-			st->counter_base = (val << 8)&0xFF00;
+			/* ä¸Šä½ï¼˜ãƒ“ãƒƒãƒˆæ›¸ãè¾¼ã¿ */
+			st->counter_base = (val << 8) & 0xFF00;
 			if (!st->running || (st->mode != 2 && st->mode != 3)) {
 				st->counter = st->counter_base;
 			}
 #if PIT_DEBUG			
-			dprintf("Count%d=$%04X\n",addr-0xe004,st->counter);
+			dprintf("Count%d=$%04X\n", addr - 0xe004, st->counter);
 #endif
-			st->bit_hl=0;
+			st->bit_hl = 0;
 			st->running = 1;
 			break;
-			
+
 		case 3:
 			if (st->bit_hl)
 			{
-				st->counter_base = ((st->counter_base & 0xFF)|(val << 8))&0xFFFF;
+				st->counter_base = ((st->counter_base & 0xFF) | (val << 8)) & 0xFFFF;
 				if (!st->running || (st->mode != 2 && st->mode != 3)) {
 					st->counter = st->counter_base;
 				}
 #if PIT_DEBUG			
-				dprintf("H:Count%d=$%04X\n",addr-0xe004,st->counter);
+				dprintf("H:Count%d=$%04X\n", addr - 0xe004, st->counter);
 #endif
 				st->running = 1;
 			}
 			else
 			{
-				st->counter_base = (val&0x00FF);
+				st->counter_base = (val & 0x00FF);
 				if (!st->running || (st->mode != 2 && st->mode != 3)) {
 					st->counter = st->counter_base;
 				}
 #if PIT_DEBUG			
-				dprintf("L:Count%d=$%04X\n",addr-0xe004,st->counter);
+				dprintf("L:Count%d=$%04X\n", addr - 0xe004, st->counter);
 #endif
 			}
-			st->bit_hl^=1;
+			st->bit_hl ^= 1;
 			break;
 		}
 
-		/* ƒTƒEƒ“ƒh—p‚ÌƒJƒEƒ“ƒ^‚Ìê‡ */
-		if (addr==0xE004)
+		/* ã‚µã‚¦ãƒ³ãƒ‰ç”¨ã®ã‚«ã‚¦ãƒ³ã‚¿ã®å ´åˆ */
+		if (addr == 0xE004)
 		{
-			if(!st->bit_hl)
+			if (!st->bit_hl)
 			{
-//				dprintf("freqtmp=$%04x makesound=%d\n",freqtmp,_8253_dat.makesound);
+				//				dprintf("freqtmp=$%04x makesound=%d\n",freqtmp,_8253_dat.makesound);
 				play8253();
 			}
 		}
 		break;
-		
+
 	case 0xE007:
 #if _DEBUG
-		dprintf("$E007=$%02X\n",val);
+		dprintf("$E007=$%02X\n", val);
 #endif
 		/* PIO CONTROL WORD */
 		write_8253_cw(val);
 		break;
-		
+
 	case 0xE008:
 #if _DEBUG
-		dprintf("$E008=$%02X\n",val);
+		dprintf("$E008=$%02X\n", val);
 #endif
 		/* bit 0: sound on/off */
-		_8253_dat.makesound=(val&1);
+		_8253_dat.makesound = (val & 1);
 		play8253();
 		break;
 
@@ -977,28 +978,28 @@ void mmio_out(int addr,int val)
 		/* Addr-H / Control */
 	case 0xE012:
 		hw700.pcg700_addr &= 0x00FF;
-		hw700.pcg700_addr |= (val<<8);
-		if ((val & (16+32))==(16+32))
+		hw700.pcg700_addr |= (val << 8);
+		if ((val & (16 + 32)) == (16 + 32))
 		{
-			/* ‚b‚f¨‚o‚b‚fƒRƒs[ */
+			/* ï¼£ï¼§â†’ï¼°ï¼£ï¼§ã‚³ãƒ”ãƒ¼ */
 			i = hw700.pcg700_addr & 2047;
-			if (i & 1024) i=2048+i;
-			else i=1024+i;
-			
-			pcg700_font[hw700.pcg700_addr & 2047]=font[i];
+			if (i & 1024) i = 2048 + i;
+			else i = 1024 + i;
+
+			pcg700_font[hw700.pcg700_addr & 2047] = font[i];
 		}
 		else
-		if (val & 16)
-		{
-			/* ‚o‚b‚f’è‹` */
-			pcg700_font[hw700.pcg700_addr & 2047]=hw700.pcg700_data;
-		}
+			if (val & 16)
+			{
+				/* ï¼°ï¼£ï¼§å®šç¾© */
+				pcg700_font[hw700.pcg700_addr & 2047] = hw700.pcg700_data;
+			}
 
-		/* ‚o‚b‚f‘I‘ğ */
+		/* ï¼°ï¼£ï¼§é¸æŠ */
 		hw700.pcg700_mode = val & 8;
 		break;
-		
-		
+
+
 	default:;
 		break;
 	}
@@ -1008,9 +1009,9 @@ void mmio_out(int addr,int val)
 // I/O Port Access
 ////////////////////////////////////////////////////////////
 // IN
-byte Z80_In (word Port)
+byte Z80_In(word Port)
 {
-	int r=255;
+	int r = 255;
 	int iPort = Port & 0x00FF;
 
 	switch (iPort)
@@ -1021,8 +1022,9 @@ byte Z80_In (word Port)
 		if (hw1500.mz1r23_ctrl & 0x80) {
 			if (mz1r23_ptr != NULL)
 				r = mz1r23_ptr[hw1500.mz1r23_addr++];
-				hw1500.mz1r23_addr &= 0x1FFFF;
-		} else {
+			hw1500.mz1r23_addr &= 0x1FFFF;
+		}
+		else {
 			if (mz1r24_ptr != NULL)
 				r = mz1r24_ptr[hw1500.mz1r24_addr];
 		}
@@ -1038,20 +1040,20 @@ byte Z80_In (word Port)
 	case 0xdc:
 	case 0xdd:
 		r = mz_fdc_r(iPort);
-//		dprintf("FDC_R %02x = %02x\n", iPort, r);
+		//		dprintf("FDC_R %02x = %02x\n", iPort, r);
 #endif //ENABLE_FDC
 		break;
 
 	case 0xe8:
 		// Voice board
-		// –\‘–‚µ‚È‚¢‚æ‚¤‚ÉACK(bit4)‚É‚O‚ğ•Ô‚·
+		// æš´èµ°ã—ãªã„ã‚ˆã†ã«ACK(bit4)ã«ï¼ã‚’è¿”ã™
 		r = 0;
 		break;
 
 	case 0xea:
 		// read data from MZ-1R18, then addr auto incliment.
 		r = mz1r18_ptr[hw1500.mz1r18_addr++];
-		hw1500.mz1r18_addr &= (MZ1R18_SIZE-1);
+		hw1500.mz1r18_addr &= (MZ1R18_SIZE - 1);
 		break;
 	case 0xf4:
 		/* sio A data */
@@ -1064,7 +1066,7 @@ byte Z80_In (word Port)
 		break;
 	case 0xf7:
 		/* sio B control */
-	    r=0x80;															/* dummy */
+		r = 0x80;															/* dummy */
 		break;
 	case 0xf8:
 		if (use_cmos)
@@ -1078,32 +1080,32 @@ byte Z80_In (word Port)
 		{
 			/* read data from MZ-1R12, then addr auto incliment.  */
 			r = mz1r12_ptr[hw700.mz1r12_addr];
-			hw700.mz1r12_addr = ( hw700.mz1r12_addr + 1) & (MZ1R12_SIZE-1);
+			hw700.mz1r12_addr = (hw700.mz1r12_addr + 1) & (MZ1R12_SIZE - 1);
 		}
 		break;
 	case 0xfe:
 		/* z80 pio Port-A DATA Reg.*/
-//		r = 0x10;														/* int0‚©‚ç‚Ì‚í‚è‚±‚İH */
-//		r = 0x20;														/* int1‚©‚ç‚Ì‚í‚è‚±‚İH */
+//		r = 0x10;														/* int0ã‹ã‚‰ã®ã‚ã‚Šã“ã¿ï¼Ÿ */
+//		r = 0x20;														/* int1ã‹ã‚‰ã®ã‚ã‚Šã“ã¿ï¼Ÿ */
 		r = Z80PIO_stat[0].pin;
-		Z80PIO_stat[0].pin = 0xC0;										/* “Ç‚İ‚Ü‚ê‚éƒf[ƒ^‚Ì‰Šú‰» */
+		Z80PIO_stat[0].pin = 0xC0;										/* èª­ã¿è¾¼ã¾ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ– */
 		break;
 	case 0xff:
 		/* z80 pio Port-B DATA Reg.*/
 		r = 0xff;
 		break;
 	}
-	
+
 	return r;
 }
 
 // OUT
-void Z80_Out(word Port,word Value)
+void Z80_Out(word Port, word Value)
 {
-	int iPort = (int) (Port & 0xFF);
-	int iVal =(int) (Value & 0xFF);
+	int iPort = (int)(Port & 0xFF);
+	int iVal = (int)(Value & 0xFF);
 
-	TMEMBANK *mp;
+	TMEMBANK* mp;
 
 
 	switch (iPort) {
@@ -1116,7 +1118,8 @@ void Z80_Out(word Port,word Value)
 		/* set address to MZ-1R23,1R24 */
 		if (hw1500.mz1r23_ctrl & 0x80) {
 			hw1500.mz1r23_addr = (((Port & 0xFF00) | iVal) & 0x0FFF) << 5;
-		} else {
+		}
+		else {
 			hw1500.mz1r24_addr = ((hw1500.mz1r23_ctrl & 0x03) << 16) | (((Port & 0xFF00) | iVal) & 0xFFFF);
 		}
 		break;
@@ -1141,7 +1144,7 @@ void Z80_Out(word Port,word Value)
 		mp->base = MB_RAM; mp->ofs = 0x800;
 		update_membank();
 		return;
-		
+
 	case 0xe1:
 		/* make D000-FFFF RAM */
 		mp = &hw700.memctrl[26];
@@ -1153,7 +1156,7 @@ void Z80_Out(word Port,word Value)
 		mp->base = MB_RAM; mp->ofs = 0xF800;
 		update_membank();
 		return;
-		
+
 	case 0xe2:
 		/* make 0000-0FFF ROM */
 		mp = &hw700.memctrl[0];
@@ -1161,14 +1164,14 @@ void Z80_Out(word Port,word Value)
 		mp->base = MB_ROM1; mp->ofs = 0x0800;
 		update_membank();
 		return;
-		
+
 	case 0xe3:
 		/* make D000-FFFF VRAM/MMIO */
 		mp = &hw700.memctrl[26];
 		mp->base = MB_VRAM; mp->ofs = 0x0000; mp++;
 		mp->base = MB_VRAM; mp->ofs = 0x0800; mp++;
 		mp->base = MB_DUMMY; mp->ofs = 0x0000; mp++;
-		/* 1500/700‚ÆØ‚è‘Ö‚¦‚Ä“®ì‚³‚¹‚é‚Æ‚« */
+		/* 1500/700ã¨åˆ‡ã‚Šæ›¿ãˆã¦å‹•ä½œã•ã›ã‚‹ã¨ã */
 		if (menu.machine == MACHINE_MZ1500)
 		{
 			mp->base = MB_ROM2; mp->ofs = 0x0000; mp++;
@@ -1183,17 +1186,17 @@ void Z80_Out(word Port,word Value)
 		}
 		update_membank();
 		return;
-		
+
 	case 0xe4:
-		Z80_Out(0xe2,0);
-		Z80_Out(0xe3,0);
+		Z80_Out(0xe2, 0);
+		Z80_Out(0xe3, 0);
 		return;
-		
+
 	case 0xe5:
 		if (hw1500.e5_bak < 0)
 		{
 			/* Backup Bank Data */
-			CopyMemory(&hw1500.memctrl_bak,&hw700.memctrl[26],sizeof(TMEMBANK)*6);
+			CopyMemory(&hw1500.memctrl_bak, &hw700.memctrl[26], sizeof(TMEMBANK) * 6);
 			hw1500.e5_bak = iVal;
 			update_membank();
 		}
@@ -1223,7 +1226,7 @@ void Z80_Out(word Port,word Value)
 			mp->base = MB_DUMMY; mp->ofs = 0x0800;
 			update_membank();
 			break;
-			
+
 		case 0x02:
 			/* PCG RED */
 			mp = &hw700.memctrl[26];
@@ -1235,7 +1238,7 @@ void Z80_Out(word Port,word Value)
 			mp->base = MB_DUMMY; mp->ofs = 0x0800;
 			update_membank();
 			break;
-			
+
 		case 0x03:
 			/* PCG GREEN */
 			mp = &hw700.memctrl[26];
@@ -1250,12 +1253,12 @@ void Z80_Out(word Port,word Value)
 
 		}
 		return;
-		
+
 	case 0xe6:
-		if (hw1500.e5_bak>=0)
+		if (hw1500.e5_bak >= 0)
 		{
 			/* Restore Before $e5 */
-			CopyMemory(&hw700.memctrl[26],&hw1500.memctrl_bak,sizeof(TMEMBANK)*6);
+			CopyMemory(&hw700.memctrl[26], &hw1500.memctrl_bak, sizeof(TMEMBANK) * 6);
 			hw1500.e5_bak = -1;
 			update_membank();
 		}
@@ -1272,25 +1275,25 @@ void Z80_Out(word Port,word Value)
 		/* then addr auto incliment.  */
 //		dprintf("out:MZ1R18_ADDR=%04x Out=%02x\n",(int)hw1500.mz1r18_addr, (int)Value);
 		mz1r18_ptr[hw1500.mz1r18_addr++] = iVal;
-		hw1500.mz1r18_addr &= (MZ1R18_SIZE-1);
+		hw1500.mz1r18_addr &= (MZ1R18_SIZE - 1);
 		break;
-		
+
 	case 0xeb:
-//		dprintf("$eb:RMFILE ADDR:Port=%04x Data=%02x\n",(int)Port, (int)Value);
-		// RAM FILE
-		// set MZ-1R18 addr
+		//		dprintf("$eb:RMFILE ADDR:Port=%04x Data=%02x\n",(int)Port, (int)Value);
+				// RAM FILE
+				// set MZ-1R18 addr
 		hw1500.mz1r18_addr = (Port & 0xFF00) | iVal;
-//		dprintf("$eb:MZ1R18_ADDR=%04x\n",hw1500.mz1r18_addr);
+		//		dprintf("$eb:MZ1R18_ADDR=%04x\n",hw1500.mz1r18_addr);
 		break;
-		
-		
+
+
 	case 0xf0:
 		// mz-1500 priority
-		hw1500.prty=iVal;
+		hw1500.prty = iVal;
 
 		mz_refresh_screen(REFSC_ALL);
 		break;
-		
+
 	case 0xf1:
 		// mz-1500 palet
 		mz_palet(iVal);
@@ -1337,30 +1340,30 @@ void Z80_Out(word Port,word Value)
 		{
 			// write data from MZ-1R12, then addr auto incliment.
 			mz1r12_ptr[hw700.mz1r12_addr] = iVal;
-			hw700.mz1r12_addr = ( hw700.mz1r12_addr + 1) & (MZ1R12_SIZE-1);
+			hw700.mz1r12_addr = (hw700.mz1r12_addr + 1) & (MZ1R12_SIZE - 1);
 		}
 		break;
 		// z80 pio Port-A Ctrl Reg.
 	case 0xfc:
 	case 0xfd:
-		mz_z80pio_ctrl(((iPort&0xFF)-0xfc),iVal);
+		mz_z80pio_ctrl(((iPort & 0xFF) - 0xfc), iVal);
 		break;
 	case 0xfe:
 		// z80 pio Port-A DATA Reg.
-		mz_z80pio_data(0,iVal);
+		mz_z80pio_data(0, iVal);
 		break;
 	}
-	
+
 	return;
 }
 
 /* Called when RETN occurs */
-void Z80_Reti (void)
+void Z80_Reti(void)
 {
 }
 
 /* Called when RETN occurs */
-void Z80_Retn (void)
+void Z80_Retn(void)
 {
 }
 
@@ -1374,36 +1377,36 @@ int Z80_Interrupt(void)
 	int ret = 0;
 
 	// Pit Interrupt (MZ-700)
-	  if ( (ts700.cpu_tstates - ts700.pit_tstates) >= cval) {
-		  ts700.pit_tstates += cval;
-		  if (pit_count()) {
-			  if (_8253_stat[2].counter_out) {
-				  if ( _8253_dat.int_mask )
-				  {
-					  Z80_intflag |= 1;
-					  Interrupt(0);
-					}
-				 }
-			  }
-		  }
+	if ((ts700.cpu_tstates - ts700.pit_tstates) >= cval) {
+		ts700.pit_tstates += cval;
+		if (pit_count()) {
+			if (_8253_stat[2].counter_out) {
+				if (_8253_dat.int_mask)
+				{
+					Z80_intflag |= 1;
+					Interrupt(0);
+				}
+			}
+		}
+	}
 
-	if (menu.machine == MACHINE_MZ1500)	{
+	if (menu.machine == MACHINE_MZ1500) {
 		// Z80 PIO TIMER (MZ-1500)
-		if ( (ts700.cpu_tstates - ts1500.pio_tstates) >= pit0cou_val) {
+		if ((ts700.cpu_tstates - ts1500.pio_tstates) >= pit0cou_val) {
 			ts1500.pio_tstates += pit0cou_val;
-			if (pio_pitcount())	{
+			if (pio_pitcount()) {
 				pio_intjob(0);
 			}
 		}
 	}
-  
+
 	return ret;
 }
 
 //--------
 // NO Use
 //--------
-void Z80_Patch (Z80_Regs *Regs)
+void Z80_Patch(Z80_Regs* Regs)
 {
 
 }
@@ -1411,11 +1414,12 @@ void Z80_Patch (Z80_Regs *Regs)
 //----------------
 // CARRY flag set
 //----------------
-void Z80_set_carry(Z80_Regs *Regs, int sw)
+void Z80_set_carry(Z80_Regs* Regs, int sw)
 {
-	if (sw)	{
+	if (sw) {
 		Regs->AF.B.l |= (C_FLAG);
-	} else {
+	}
+	else {
 		Regs->AF.B.l &= (~C_FLAG);
 	}
 }
@@ -1423,7 +1427,7 @@ void Z80_set_carry(Z80_Regs *Regs, int sw)
 //----------------
 // CARRY flag get
 //----------------
-int Z80_get_carry(Z80_Regs *Regs)
+int Z80_get_carry(Z80_Regs* Regs)
 {
 	return ((Regs->AF.B.l & C_FLAG) ? 1 : 0);
 }
@@ -1431,11 +1435,12 @@ int Z80_get_carry(Z80_Regs *Regs)
 //---------------
 // ZERO flag get
 //---------------
-void Z80_set_zero(Z80_Regs *Regs, int sw)
+void Z80_set_zero(Z80_Regs* Regs, int sw)
 {
-	if (sw)	{
+	if (sw) {
 		Regs->AF.B.l |= (Z_FLAG);
-	} else {
+	}
+	else {
 		Regs->AF.B.l &= (~Z_FLAG);
 	}
 }
@@ -1443,7 +1448,7 @@ void Z80_set_zero(Z80_Regs *Regs, int sw)
 //---------------
 // ZERO flag get
 //---------------
-int Z80_get_zero(Z80_Regs *Regs)
+int Z80_get_zero(Z80_Regs* Regs)
 {
 	return ((Regs->AF.B.l & Z_FLAG) ? 1 : 0);
 }
