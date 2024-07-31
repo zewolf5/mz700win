@@ -1,4 +1,4 @@
-# mz700win version 0.58
+# mz700win version 0.60
 Modifed to be used from emu stations like retrofe.
  * fullscreen
  * take in file as input when launching app
@@ -34,6 +34,10 @@ OLD INFO FROM FORK
 
 
 ```
+                   0.60(zewolf5)
+                      | 
+                      |
+                      |
 0.57(Marukun)      0.58(Snail)
   |                   |
   :                   |
