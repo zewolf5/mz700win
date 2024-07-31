@@ -618,6 +618,9 @@ void AppMain(char* lpszCmdParam)
 
 	/* MZ-700 実行開始 */
 	rom_check();				// ROMモニタの存在チェック
+
+	//_loadGame = 100;
+
 	mz_main(lpszCmdParam);
 }
 
@@ -1272,7 +1275,7 @@ BOOL CALLBACK AppSpeedDialog(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-BOOL _loadGame;
+//static int _loadGame = -1;
 /*----------------------------------------------------------------------------*\
 |   AppCommand(hwnd, msg, wParam, lParam )                                     |
 |                                                                              |
@@ -1330,10 +1333,8 @@ LONG AppCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case MENU_OPEN:
-		if (OpenFileImage()) {
-			//PressLAndEnter();
-			_loadGame = TRUE;
-		}
+		OpenFileImage();
+		//_loadGame = 100;
 		break;
 
 	case MENU_SET:
@@ -1933,6 +1934,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ENABLE:
+		//LoadGame();
 		if ((BOOL)wParam)
 		{
 			fAppActive = TRUE;
@@ -1968,6 +1970,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		/* NC Paint */
 	case WM_NCPAINT:
+		//LoadGame();
 		if (scrnmode == SCRN_FULL)
 		{
 			return FALSE;
@@ -1976,6 +1979,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		/* Paint */
 	case WM_PAINT:
+		//LoadGame();
 		if (scrnmode != SCRN_FULL)
 		{
 			hdc = BeginPaint(hwnd, &ps);
@@ -1991,10 +1995,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		/* DirectInputを復帰 */
 	case WM_ACTIVATE:
+		//LoadGame();
 		//		ReacquireMouse();
 		break;
 
 	case WM_ACTIVATEAPP:
+		//LoadGame();
 		if (hwnd == hwndApp) fAppActive = (BOOL)wParam;
 		//		printf("fAppActive = %d\n",fAppActive);
 		break;
@@ -2022,21 +2028,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			PostQuitMessage(0);
 		}
 
-		//if (_loadGame == TRUE) {
-		//	_loadGame = FALSE;
-		//	MessageBox(hwndApp, "Try loading game.", "Info", MB_ICONINFORMATION | MB_OK);
-
-			//mz_keydown(0x4C);
-			//mz_keyup(0x4C);
-		//}
-
 		mz_keydown(wParam);
-		//mz_keydown(0x4B);
 		break;
 
 	case WM_KEYUP:
 		mz_keyup(wParam);
-		//mz_keydown(0x4B);
 		break;
 
 	case WM_WINDOWPOSCHANGED:
@@ -2078,10 +2074,34 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		PostQuitMessage(0);
 		return TRUE;
+
+	default:
+		//dprintf("Message: %d\n", message);
+	/*	if (message != 70) {
+			LoadGame();
+		}
+	*/	break;
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
+
+//static int LoadGame() {
+//	if (_loadGame > 1) {
+//		//dprintf("load game...%d \n", _loadGame);
+//		dprintf("Your boolean variable is: %d", _loadGame );
+//		//BringWindowToTop(hwndApp);
+//		//SetFocus(hwndApp);
+//
+//		keybd_event(0x4C, 0, 0, 0);
+//		Sleep(10);
+//		keybd_event(0x4C, 0, KEYEVENTF_KEYUP, 0);
+//		Sleep(10);
+//		//_loadGame = 0;
+//		_loadGame--;
+//	}
+//	return 0;
+//}
 
 /******************/
 /* 各種あとしまつ */
@@ -2315,7 +2335,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	if (!FileExists(FontFileStr[1]))
 	{
 		EnableMenuItem(hmenuApp, MENU_FONT_JAPAN, MF_BYCOMMAND | MF_GRAYED); // JAPAN選択不能
-								if (menu.fontset==1) menu.fontset=0;
+																				if (menu.fontset==1) menu.fontset=0;
 	}
 
 	fullsc_timer = 0;

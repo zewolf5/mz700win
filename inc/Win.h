@@ -6,6 +6,7 @@ extern "C"
 #define MZ_SP_PATCH 1							// 純正ＲＯＭ時のパッチを有効にするか 1=する
 #define MZ_ROM1_TEST 0							// ROM1有効時にentry emulのテストをするか 1=する
 
+//static int _loadGame;
 //
 #define FORMWIDTH		320
 #define FORMHEIGHT		200
